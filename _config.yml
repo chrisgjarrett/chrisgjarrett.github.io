@@ -1,10 +1,9 @@
-theme: jekyll-theme-minimal
+remote_theme: "mmistakes/minimal-mistakes@4.24.0"
 title: Chris' Data Portfolio
 description: A collection of projects about data science and data analytics
 
 layout: splash
 
 #remote_theme: LeNPaul/Millennial
-remote_theme: "mmistakes/minimal-mistakes@4.24.0"
 plugins:
   - jekyll-include-cache
