@@ -1,8 +1,24 @@
-remote_theme: "mmistakes/minimal-mistakes@4.24.0"
+remote_theme             : "mmistakes/minimal-mistakes"
+minimal_mistakes_skin    : "default" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
+
 title: Chris' Data Portfolio
 description: A collection of projects about data science and data analytics
 
 layout: splash
+
+collections:
+  portfolio:
+    output: true
+
+defaults:
+  # _portfolio
+  - scope:
+      path: ""
+      type: portfolio
+    values:
+      layout: single
+      author_profile: false
+      share: true
 
 #remote_theme: LeNPaul/Millennial
 plugins:
