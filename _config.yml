@@ -3,4 +3,6 @@ title: Chris' Data Portfolio
 description: A collection of projects about data science and data analytics
 
 #remote_theme: LeNPaul/Millennial
-remote_theme: "mmistakes/minimal-mistakes
+remote_theme: "mmistakes/minimal-mistakes"
+plugins:
+  - jekyll-include-cache
