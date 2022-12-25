@@ -1,6 +1,6 @@
 main:
   - title: "Portfolio"
-    url: /:collection/:path/
+    url: /portfolio/
   - title: "Posts"
     url: /posts/
   - title: "Categories"
