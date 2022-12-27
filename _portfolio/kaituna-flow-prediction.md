@@ -43,9 +43,9 @@ After aggregating the data into daily resolution, I began to conduct data explor
 Immediately, it is clear that there is strong seasonality in the average gate levels. In addition to annual seasonality, where gate levels rise during winter, there is also a 4-5 year cycle, possibly corresponding to the La Nina/El Nino cycles.
 
 ## Rainfall and lake levels
-![ Rainfall against time](/assets/images/kaituna-project/rainfall-against-time.jpg "Rainfall against time") ![ Lake level against time](/assets/images/kaituna-project/rainfall-against-time.jpg "Lake level against time")
+| ![ Rainfall against time](/assets/images/kaituna-project/rainfall-against-time.jpg "Rainfall against time")| ![ Lake level against time](/assets/images/kaituna-project/rainfall-against-time.jpg "Lake level against time")|
 
-![ Rainfall against gate level](/assets/images/kaituna-project/rainfall-x-gate-level.jpg "Rainfall against gate level") ![ Lake level against gate level](/assets/images/kaituna-project/lake-level-x-gate-level.jpg "Lake level against gate level")
+| ![ Rainfall against gate level](/assets/images/kaituna-project/rainfall-x-gate-level.jpg "Rainfall against gate level") | ![ Lake level against gate level](/assets/images/kaituna-project/lake-level-x-gate-level.jpg "Lake level against gate level") |
 
 Interestingly, neither rainfall nor lake level seem to exhibit the seasonality trends as strongly and neither seems to correlate too strongly with the average gate level. Lake level looks the most correlated but it is by no means a clear correlation. This motivates the investigation of nonlinear or interaction effects. It may also suggest that the dam operators have some sort of seasonal model that is independent of rainfall. Or, my rainfall data has been aggregated incorrectly.
 
@@ -58,7 +58,7 @@ In my opinion it is debatable whether adding a seasonal indicator feature will b
 
 ## Effect of previous flow rate on current
 To evaluate whether there is any use in adding previous gate levels as a feature, I used partial auto-correlation and plotted the gate levels against previous days' levels:
-![ Partial autocorrelation](/assets/images/kaituna-project/pcaf-plots.jpg "PCAF") ![ Lag plots](/assets/images/kaituna-project/lag-plots.jpg "Lag plots") 
+| ![ Partial autocorrelation](/assets/images/kaituna-project/pcaf-plots.jpg "PCAF") | ![ Lag plots](/assets/images/kaituna-project/lag-plots.jpg "Lag plots") |
 
 It can be seen that correlation exists potentially up to 7 days prior to any given day. Interestingly, the 2nd day's lag is not significant. The lag plots indicate some sort of nonlinear effect at longer lags.
 
@@ -72,7 +72,7 @@ Finally, I decided to evaluate the PCA components of rainfall and lake level. I 
 |  Rainfall | 0.707107 |  0.707107 |
 | LakeLevel | 0.707107 | -0.707107 |
 
-![ Percent Explained variance](/assets/images/kaituna-project/explained-variance.jpg "% Explained variance") ![ Cumulative variance](/assets/images/kaituna-project/cumulative-variance.jpg "Cumulative variance") 
+| ![ Percent Explained variance](/assets/images/kaituna-project/explained-variance.jpg "% Explained variance") | ![ Cumulative variance](/assets/images/kaituna-project/cumulative-variance.jpg "Cumulative variance") |
 
 The mutual information of these components was 0.47 and 0.41 respectively. The loadings are interesting - one indicates a positive correlation and one indicates a negative correlation. It may be that this represents the increase in lake level because of rainfall, and the pre-emptive emptying of the lake in response to high rainfall/high forecasted rainfall.
 
