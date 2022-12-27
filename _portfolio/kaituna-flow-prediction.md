@@ -2,8 +2,8 @@
 title: "Predicting the flow of the Kaituna river"
 excerpt: "A project on using machine learning for predicting future values in a timeseries."
 header:
-  image: /assets/images/kaituna-project.jpg
-  teaser: /assets/images/kaituna-project/images/kaituna-project-th.jpg
+  image: /assets/images/kaituna-project/kaituna-project.jpg
+  teaser: /assets/images/kaituna-project/kaituna-project-th.jpg
 gallery:
   - url: /assets/images/kaituna-project/images/kaituna-project.jpg
     image_path: /assets/images/kaituna-project/kaituna-project-th.jpg
@@ -45,4 +45,4 @@ Immediately, it is clear that there is strong seasonality in the average gate le
 ## Rainfall and lake levels
 ![ Rainfall against time](/assets/images/kaituna-project/rainfall-against-time.jpg "Rainfall against time") ![ Lake level against time](/assets/images/kaituna-project/rainfall-against-time.jpg "Lake level against time")
 
-Interestingly, neither rainfall nor lake level seem to exhibit the same seasonality trends and neither seems to correlate strongly with the average gate level. This motivates the investigation of nonlinear or interaction effects. 
+Interestingly, neither rainfall nor lake level seem to exhibit the same seasonality trends and neither seems to correlate strongly with the average gate level. This motivates the investigation of nonlinear or interaction effects. It may also suggest that the dam operators have some sort of seasonal model that is independent of rainfall. Or, my rainfall data has been aggregated incorrectly.
