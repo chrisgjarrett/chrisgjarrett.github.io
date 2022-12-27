@@ -6,7 +6,7 @@ header:
   teaser: /assets/images/kaituna-project/images/kaituna-project-th.jpg
 gallery:
   - url: /assets/images/kaituna-project/images/kaituna-project.jpg
-    image_path: /assets/images/kaituna-project-th.jpg
+    image_path: /assets/images/kaituna-project/kaituna-project-th.jpg
     alt: "Ferrying the chute at kaituna"
 ---
 
