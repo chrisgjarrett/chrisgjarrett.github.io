@@ -46,3 +46,30 @@ Immediately, it is clear that there is strong seasonality in the average gate le
 ![ Rainfall against time](/assets/images/kaituna-project/rainfall-against-time.jpg "Rainfall against time") ![ Lake level against time](/assets/images/kaituna-project/rainfall-against-time.jpg "Lake level against time")
 
 Interestingly, neither rainfall nor lake level seem to exhibit the same seasonality trends and neither seems to correlate strongly with the average gate level. This motivates the investigation of nonlinear or interaction effects. It may also suggest that the dam operators have some sort of seasonal model that is independent of rainfall. Or, my rainfall data has been aggregated incorrectly.
+
+## Quantifying seasonality
+To get a better measure of the seasonality, I constructed a periodogram:
+![ Periodogram of average flow](/assets/images/kaituna-project/periodogram.jpg "Rainfall against time")
+The plot confirms that there is a strong seasonal component existing on roughly a 4-5 year cycle and a strong annual component.
+
+In my opinion it is debatable whether adding a seasonal indicator feature will benefit the model hugely. It is likely that the seasonality observed is in response to rainfall - so if we include rainfall as a feature, will it add significantly more information?
+
+## Effect of previous flow rate on current
+To evaluate whether there is any use in adding previous gate levels as a feature, I used partial auto-correlation and plotted the gate levels against previous days' levels:
+![ Partial autocorrelation](/assets/images/kaituna-project/pcaf-plots.jpg "PCAF") ![ Lag plots](/assets/images/kaituna-project/lag-plots.jpg "Lag plots") 
+
+It can be seen that correlation exists potentially up to 7 days prior to any given day. Interestingly, the 2nd day's lag is not significant. The lag plots indicate some sort of nonlinear effect at longer lags.
+
+## Mutual information
+I also looked at mutual information, particularly the amount contained within rainfall and lake level. I found that rainfall had 0.11 units and lake level had 0.62 units.
+
+## PCA 
+Finally, I decided to evaluate the PCA components of rainfall and lake level. I would expect these to be correlated and so using PCA may reveal new underlying relationships that are useful.
+|           |      PC1 |       PC2 |
+|----------:|---------:|----------:|
+|  Rainfall | 0.707107 |  0.707107 |
+| LakeLevel | 0.707107 | -0.707107 |
+
+![ Percent Explained variance](/assets/images/kaituna-project/explained-variance.jpg "% Explained variance") ![ Cumulative variance](/assets/images/kaituna-project/cumulative-variance.jpg "Cumulative variance") 
+
+
