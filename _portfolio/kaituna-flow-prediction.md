@@ -2,19 +2,12 @@
 title: "Predicting the flow of the Kaituna river"
 excerpt: "A project on using machine learning for timeseries predictions."
 header:
-  image: /assets/images/unsplash-gallery-image-1.jpg
-  teaser: /assets/images/unsplash-gallery-image-1.jpg
-sidebar:
-  - title: "Role"
-    image: http://placehold.it/350x250
-    image_alt: "logo"
-    text: "Designer, Front-End Developer"
-  - title: "Responsibilities"
-    text: "Reuters try PR stupid commenters should isn't a business model"
+  image: /assets/images/kaituna-project.jpg
+  teaser: /assets/images/kaituna-project-th.jpg
 gallery:
-  - url: /assets/images/unsplash-gallery-image-1.jpg
-    image_path: assets/images/unsplash-gallery-image-1-th.jpg
-    alt: "placeholder image 1"
+  - url: /assets/images/kaituna-project.jpg
+    image_path: /assets/images/kaituna-project-th.jpg
+    alt: "Ferrying the chute at kaituna"
 ---
 
 Kaituna blah lbah blah

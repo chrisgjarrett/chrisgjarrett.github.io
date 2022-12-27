@@ -5,4 +5,4 @@ author_profile: False
 sidebar: False
 ---
 
-I'm an engineer blah blah blah
+Welcome to my portfolio page. I originally trained as a mechatronics engineer at the University of Auckland, New Zealand. I went on to complete a Masters and PhD focusing on developing control systems for rehabilitation robotics. 
