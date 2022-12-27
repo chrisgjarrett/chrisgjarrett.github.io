@@ -3,9 +3,9 @@ title: "Predicting the flow of the Kaituna river"
 excerpt: "A project on using machine learning for predicting future values in a timeseries."
 header:
   image: /assets/images/kaituna-project.jpg
-  teaser: /assets/kaituna-project/images/kaituna-project-th.jpg
+  teaser: /assets/images/kaituna-project/images/kaituna-project-th.jpg
 gallery:
-  - url: /assets/kaituna-project/images/kaituna-project.jpg
+  - url: /assets/images/kaituna-project/images/kaituna-project.jpg
     image_path: /assets/images/kaituna-project-th.jpg
     alt: "Ferrying the chute at kaituna"
 ---
@@ -38,11 +38,11 @@ To gather the data, I built a web-scraper in Python, the source code for which i
 After aggregating the data into daily resolution, I began to conduct data exploration. Initially, I wanted to get a feel for what the data looked like, before diving into exploring the relationships of different features on the output
 
 ### Average gate levels
-![ Average gate levels](/assets/kaituna-project/flowrate-against-time.jpg "Average gate levels")
+![ Average gate levels](/assets/images/kaituna-project/flowrate-against-time.jpg "Average gate levels")
 
 Immediately, it is clear that there is strong seasonality in the average gate levels. In addition to annual seasonality, where gate levels rise during winter, there is also a 4-5 year cycle, possibly corresponding to the La Nina/El Nino cycles.
 
 ## Rainfall and lake levels
-![ Rainfall against time](/assets/kaituna-project/rainfall-against-time.jpg "Rainfall against time") ![ Lake level against time](/assets/kaituna-project/rainfall-against-time.jpg "Lake level against time")
+![ Rainfall against time](/assets/images/kaituna-project/rainfall-against-time.jpg "Rainfall against time") ![ Lake level against time](/assets/images/kaituna-project/rainfall-against-time.jpg "Lake level against time")
 
 Interestingly, neither rainfall nor lake level seem to exhibit the same seasonality trends and neither seems to correlate strongly with the average gate level. This motivates the investigation of nonlinear or interaction effects. 
