@@ -3,9 +3,9 @@ title: "Predicting the flow of the Kaituna river"
 excerpt: "A project on using machine learning for predicting future values in a timeseries."
 header:
   image: /assets/images/kaituna-project.jpg
-  teaser: /assets/images/kaituna-project-th.jpg
+  teaser: /assets/kaituna-project/images/kaituna-project-th.jpg
 gallery:
-  - url: /assets/images/kaituna-project.jpg
+  - url: /assets/kaituna-project/images/kaituna-project.jpg
     image_path: /assets/images/kaituna-project-th.jpg
     alt: "Ferrying the chute at kaituna"
 ---
@@ -18,7 +18,7 @@ The Kaituna river is located at Okere Falls, Rotorua, New Zealand. For many, it'
 
 From a kayaking standpoint, the level of the gates greatly affects the river features. Paddlers typically describe the river level in terms of the average gate level, as read at the gates themselves at the beginning of the run. Thus, '100s' refers to all three gates being at the 100 mark, 200s at the 200 mark, and so on. If, say two gates are at 300 and one at 400, this could be referred to as anything from 300s to 350s, to 300/400s. 
 
-Fortunately, highly granulated data can be found at [the BOP regional council website](https://www.boprc.govt.nz). Here, we can find all sorts of datasets, including lake level, flow rate, the level of all three gates and rainfall data. This inspired me to see if I could predict the next days' gate levels based on the available data and create a tool for paddlers to use.
+Fortunately, highly granulated data can be found at [the BOP regional council website](https://www.boprc.govt.nz). It has all sorts of datasets pertaining to river flow and this inspired me to see if I could predict the next days' gate levels based on the available data and create a tool for paddlers to use.
 
 ### Problem definition
 
@@ -31,5 +31,18 @@ I averaged all three gate levels to produce one value for each hour of the day, 
 ### Important feature variables
 From my own domain knowledge, I know that lake level and rainfall are likely to be the primary indicators of the gate level. I used these, along with historical gate levels, as the 'base' features for my prediction system.
 
-## Data gathering
-To gather the data, I built a web-scraper in Python, the source code for which is [here](https://github.com/chrisgjarrett/kaituna-model/tree/development/web_scraper). The webscraper
+## Data collection
+To gather the data, I built a web-scraper in Python, the source code for which is [here](https://github.com/chrisgjarrett/kaituna-model/blob/development/web_scraper/kaituna_web_scraper.py). The function grabs the level of lake rotoiti, the gate levels, flow rates and rainfall data. The output is a dataframe with hourly resolution data over the specified time range.
+
+## Data exploration
+After aggregating the data into daily resolution, I began to conduct data exploration. Initially, I wanted to get a feel for what the data looked like, before diving into exploring the relationships of different features on the output
+
+### Average gate levels
+![ Average gate levels](/assets/kaituna-project/flowrate-against-time.jpg "Average gate levels")
+
+Immediately, it is clear that there is strong seasonality in the average gate levels. In addition to annual seasonality, where gate levels rise during winter, there is also a 4-5 year cycle, possibly corresponding to the La Nina/El Nino cycles.
+
+## Rainfall and lake levels
+![ Rainfall against time](/assets/kaituna-project/rainfall-against-time.jpg "Rainfall against time") ![ Lake level against time](/assets/kaituna-project/rainfall-against-time.jpg "Lake level against time")
+
+Interestingly, neither rainfall nor lake level seem to exhibit the same seasonality trends and neither seems to correlate strongly with the average gate level. This motivates the investigation of nonlinear or interaction effects. 
