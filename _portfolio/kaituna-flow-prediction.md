@@ -45,7 +45,9 @@ Immediately, it is clear that there is strong seasonality in the average gate le
 ## Rainfall and lake levels
 ![ Rainfall against time](/assets/images/kaituna-project/rainfall-against-time.jpg "Rainfall against time") ![ Lake level against time](/assets/images/kaituna-project/rainfall-against-time.jpg "Lake level against time")
 
-Interestingly, neither rainfall nor lake level seem to exhibit the same seasonality trends and neither seems to correlate strongly with the average gate level. This motivates the investigation of nonlinear or interaction effects. It may also suggest that the dam operators have some sort of seasonal model that is independent of rainfall. Or, my rainfall data has been aggregated incorrectly.
+![ Rainfall against gate level](/assets/images/kaituna-project/rainfall-x-gate-level.jpg "Rainfall against gate level") ![ Lake level against gate level](/assets/images/kaituna-project/lake-level-x-gate-level.jpg "Lake level against gate level")
+
+Interestingly, neither rainfall nor lake level seem to exhibit the seasonality trends as strongly and neither seems to correlate too strongly with the average gate level. Lake level looks the most correlated but it is by no means a clear correlation. This motivates the investigation of nonlinear or interaction effects. It may also suggest that the dam operators have some sort of seasonal model that is independent of rainfall. Or, my rainfall data has been aggregated incorrectly.
 
 ## Quantifying seasonality
 To get a better measure of the seasonality, I constructed a periodogram:
@@ -72,4 +74,7 @@ Finally, I decided to evaluate the PCA components of rainfall and lake level. I 
 
 ![ Percent Explained variance](/assets/images/kaituna-project/explained-variance.jpg "% Explained variance") ![ Cumulative variance](/assets/images/kaituna-project/cumulative-variance.jpg "Cumulative variance") 
 
+The mutual information of these components was 0.47 and 0.41 respectively. The loadings are interesting - one indicates a positive correlation and one indicates a negative correlation. It may be that this represents the increase in lake level because of rainfall, and the pre-emptive emptying of the lake in response to high rainfall/high forecasted rainfall.
 
+## Summary
+From data exploration, I observed that there is a strong seasonal component to the gate levels, with a particularly interesting multi-year cycle. Rainfall and lake level both have significant mutual information with the gate level, and when PCA was used, the contribution of each to the mutual information was more equal.
