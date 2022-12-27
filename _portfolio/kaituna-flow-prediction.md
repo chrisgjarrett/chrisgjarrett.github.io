@@ -69,7 +69,7 @@ I also looked at mutual information, particularly the amount contained within ra
 Finally, I decided to evaluate the PCA components of rainfall and lake level. I would expect these to be correlated and so using PCA may reveal new underlying relationships that are useful.
 
 |           |      PC1 |       PC2 |
-|----------:|---------:|----------:|
+|-----------|----------|-----------|
 |  Rainfall | 0.707107 |  0.707107 |
 | LakeLevel | 0.707107 | -0.707107 |
 
