@@ -59,7 +59,8 @@ In my opinion it is debatable whether adding a seasonal indicator feature will b
 ## Effect of previous flow rate on current
 To evaluate whether there is any use in adding previous gate levels as a feature, I used partial auto-correlation and plotted the gate levels against previous days' levels:
 
-| ![ Partial autocorrelation](/assets/images/kaituna-project/pcaf.jpg "PCAF") | ![ Lag plots](/assets/images/kaituna-project/lag-plots.jpg "Lag plots") |
+| ![ Partial autocorrelation](/assets/images/kaituna-project/pcaf.jpg "PCAF") |
+| ![ Lag plots](/assets/images/kaituna-project/lag-plots.jpg "Lag plots") |
 
 It can be seen that correlation exists potentially up to 7 days prior to any given day. Interestingly, the 2nd day's lag is not significant. The lag plots indicate some sort of nonlinear effect at longer lags.
 
