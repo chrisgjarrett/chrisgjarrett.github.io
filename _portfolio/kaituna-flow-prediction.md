@@ -75,7 +75,7 @@ Finally, I decided to evaluate the PCA components of rainfall and lake level. I 
 |  Rainfall | 0.707107 |  0.707107 |
 | LakeLevel | 0.707107 | -0.707107 |
 
-| ![ Percent Explained variance](/assets/images/kaituna-project/explained-variance.jpg "% Explained variance") | ![ Cumulative variance](/assets/images/kaituna-project/cumulative-variance.jpg "Cumulative variance") |
+![ PCA explained variance](/assets/images/kaituna-project/pca-variance-plots.jpg "PCA explained variance")
 
 The mutual information of these components was 0.47 and 0.41 respectively. The loadings are interesting - one indicates a positive correlation and one indicates a negative correlation. It may be that this represents the increase in lake level because of rainfall, and the pre-emptive emptying of the lake in response to high rainfall/high forecasted rainfall.
 
