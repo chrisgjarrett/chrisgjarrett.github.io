@@ -12,7 +12,7 @@ gallery:
 
 <!--{% include gallery caption="This is a sample gallery to go along with this case study." %} -->
 
-## Background
+# Background
 
 The Kaituna river is located at Okere Falls, Rotorua, New Zealand. For many, it's a spiritual home. The river, or awa, as it's known in Māori is one of the premier whitewater kayaking spots in New Zealand. It's a dam-controlled river and the gate levels are regulated in response to the level of Lake Rotoiti.
 
@@ -20,7 +20,7 @@ From a kayaking standpoint, the level of the gates greatly affects the river fea
 
 Fortunately, highly granulated data can be found at [the BOP regional council website](https://www.boprc.govt.nz). It has all sorts of datasets pertaining to river flow and this inspired me to see if I could predict the next days' gate levels based on the available data and create a tool for paddlers to use.
 
-### Problem definition
+## Problem definition
 
 ### Data resolution
 An initial exploration of the data revealed that most data is collected at 5 minute intervals, while rainfall is measured on an hourly basis. I decided that hourly resolution was too granular. Usually, paddlers will plan to go to the Kaituna the night before, or morning of, and flow changes during the day are rare. It's more typical that the gate levels are set in the morning or late at night. Therefore, I decided that it was most useful to try and predict the flow on a daily basis.
@@ -31,19 +31,19 @@ I averaged all three gate levels to produce one value for each hour of the day, 
 ### Important feature variables
 From my own domain knowledge, I know that lake level and rainfall are likely to be the primary indicators of the gate level. I used these, along with historical gate levels, as the 'base' features for my prediction system.
 
-## Data collection
+# Data collection
 To gather the data, I built a web-scraper in Python, the source code for which is [here](https://github.com/chrisgjarrett/kaituna-model/blob/development/web_scraper/kaituna_web_scraper.py). The function grabs the level of lake rotoiti, the gate levels, flow rates and rainfall data. The output is a dataframe with hourly resolution data over the specified time range.
 
-## Data exploration
+# Data exploration
 After aggregating the data into daily resolution, I began to conduct data exploration. Initially, I wanted to get a feel for what the data looked like, before diving into exploring the relationships of different features on the output
 
-### Average gate levels
+## Average gate levels
 ![ Average gate levels](/assets/images/kaituna-project/flowrate-against-time.jpg "Average gate levels")
 
 Immediately, it is clear that there is strong seasonality in the average gate levels. In addition to annual seasonality, where gate levels rise during winter, there is also a 4-5 year cycle, possibly corresponding to the La Nina/El Nino cycles.
 
 ## Rainfall and lake levels
-| ![ Rainfall against time](/assets/images/kaituna-project/rainfall-against-time.jpg "Rainfall against time")| ![ Lake level against time](/assets/images/kaituna-project/rainfall-against-time.jpg "Lake level against time")|
+| ![ Rainfall against time](/assets/images/kaituna-project/rainfall-against-time.jpg "Rainfall against time") | ![ Lake level against time](/assets/images/kaituna-project/rainfall-against-time.jpg "Lake level against time") |
 
 | ![ Rainfall against gate level](/assets/images/kaituna-project/rainfall-x-gate-level.jpg "Rainfall against gate level") | ![ Lake level against gate level](/assets/images/kaituna-project/lake-level-x-gate-level.jpg "Lake level against gate level") |
 
@@ -58,7 +58,7 @@ In my opinion it is debatable whether adding a seasonal indicator feature will b
 
 ## Effect of previous flow rate on current
 To evaluate whether there is any use in adding previous gate levels as a feature, I used partial auto-correlation and plotted the gate levels against previous days' levels:
-| ![ Partial autocorrelation](/assets/images/kaituna-project/pcaf-plots.jpg "PCAF") | ![ Lag plots](/assets/images/kaituna-project/lag-plots.jpg "Lag plots") |
+| ![ Partial autocorrelation](/assets/images/kaituna-project/pcaf.jpg "PCAF") | ![ Lag plots](/assets/images/kaituna-project/lag-plots.jpg "Lag plots") |
 
 It can be seen that correlation exists potentially up to 7 days prior to any given day. Interestingly, the 2nd day's lag is not significant. The lag plots indicate some sort of nonlinear effect at longer lags.
 
@@ -79,3 +79,9 @@ The mutual information of these components was 0.47 and 0.41 respectively. The l
 
 ## Summary
 From data exploration, I observed that there is a strong seasonal component to the gate levels, with a particularly interesting multi-year cycle. Rainfall and lake level both have significant mutual information with the gate level, and when PCA was used, the contribution of each to the mutual information was more equal.
+
+# Model selection
+- LSTM
+- ANN
+- hybrid
+Initially, I looked 
