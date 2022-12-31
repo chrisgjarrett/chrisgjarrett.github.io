@@ -12,49 +12,57 @@ gallery:
 
 <!--{% include gallery caption="This is a sample gallery to go along with this case study." %} -->
 
+# Summary of tech stack and skills
+* Neural networks
+  * Tensorflow
+  * Keras
+  * Timeseries predictions
+  * LSTMs
+* Docker
+* Amazon Web Services
+  * S3 
+  * Lambda functions
+  * Scheduling
+* HTML/Javascript
+
 # Background
+The Kaituna river, located at Okere Falls, Rotorua, is one of the premier whitewater kayaking spots in New Zealand. It's a dam-controlled river and serves as the main outlet for Lake Rotoiti, with outflow regulated by the gate levels.
 
-The Kaituna river is located at Okere Falls, Rotorua, New Zealand. For many, it's a spiritual home. The river, or awa, as it's known in Māori is one of the premier whitewater kayaking spots in New Zealand. It's a dam-controlled river and the gate levels are regulated in response to the level of Lake Rotoiti.
+For kayaking, the level of the gates greatly affects the river features. Paddlers typically describe the river level in terms of the average gate level, which can be read at the gates themselves. River flow is described in terms of these numbers, so '100s' refers to all three gates being at the 100 mark, 200s at the 200 mark, and so on. 
 
-From a kayaking standpoint, the level of the gates greatly affects the river features. Paddlers typically describe the river level in terms of the average gate level, as read at the gates themselves at the beginning of the run. Thus, '100s' refers to all three gates being at the 100 mark, 200s at the 200 mark, and so on. If, say two gates are at 300 and one at 400, this could be referred to as anything from 300s to 350s, to 300/400s. 
-
-Fortunately, highly granulated data can be found at [the BOP regional council website](https://www.boprc.govt.nz). It has all sorts of datasets pertaining to river flow and this inspired me to see if I could predict the next days' gate levels based on the available data and create a tool for paddlers to use.
+The gate levels, and several other data points, are all recorded and can be found at [the BOP regional council website](https://www.boprc.govt.nz). This inspired me to see if I could create a machine learning tool that predicts the gate levels in coming days and serve it up as a tool for paddlers to use.
 
 ## Problem definition
 
 ### Data resolution
-An initial exploration of the data revealed that most data is collected at 5 minute intervals, while rainfall is measured on an hourly basis. I decided that hourly resolution was too granular. Usually, paddlers will plan to go to the Kaituna the night before, or morning of, and flow changes during the day are rare. It's more typical that the gate levels are set in the morning or late at night. Therefore, I decided that it was most useful to try and predict the flow on a daily basis.
+Most of the data is collected at 5 minute intervals, while rainfall is measured on an hourly basis. I decided that hourly resolution was too granular. Typically, the gate levels are set in the morning or late at night which results in long periods of the day where the gate level does not change. Therefore, I decided that it was most useful to try and predict the flow on a daily basis.
 
 ### Target variable
-I averaged all three gate levels to produce one value for each hour of the day, then took the median of all values to represent the day's gate level. By using the median rather than mean, my average value is not unfairly biased by short amounts of data gathered prior to the day's gate level being set. 
-
-### Important feature variables
-From my own domain knowledge, I know that lake level and rainfall are likely to be the primary indicators of the gate level. I used these, along with historical gate levels, as the 'base' features for my prediction system.
+I averaged all three gate levels to produce one value for each hour of the day, then took the median of all values to represent the day's gate level. By using the median rather than mean, my average value is not unfairly biased by short amounts of data in the early morning or late evening where the gate level changes. 
 
 # Data collection
 To gather the data, I built a web-scraper in Python, the source code for which is [here](https://github.com/chrisgjarrett/kaituna-model/blob/development/web_scraper/kaituna_web_scraper.py). The function grabs the level of lake rotoiti, the gate levels, flow rates and rainfall data. The output is a dataframe with hourly resolution data over the specified time range.
 
 # Data exploration
-After aggregating the data into daily resolution, I began to conduct data exploration. Initially, I wanted to get a feel for what the data looked like, before diving into exploring the relationships of different features on the output
+After aggregating the data into daily resolution, I began data exploration. Initially, I wanted to get a feel for what the data looked like, before diving into exploring the relationships of different features on the output
 
 ## Average gate levels
 ![ Average gate levels](/assets/images/kaituna-project/flowrate-against-time.jpg "Average gate levels")
 
-Immediately, it is clear that there is strong seasonality in the average gate levels. In addition to annual seasonality, where gate levels rise during winter, there is also a 4-5 year cycle, possibly corresponding to the La Nina/El Nino cycles.
+Immediately, it is clear that there is strong seasonality in the average gate levels. In addition to annual seasonality, where gate levels rise during winter, there is also a 4-5 year cycle, possibly corresponding to the La Nina/El Nino cycles. This is confirmed by a periodogram:
+
+![ Periodogram of average flow](/assets/images/kaituna-project/periodogram.jpg "Rainfall against time")
 
 ## Rainfall and lake levels
 | ![ Rainfall against time](/assets/images/kaituna-project/rainfall-against-time.jpg "Rainfall against time") | ![ Lake level against time](/assets/images/kaituna-project/rainfall-against-time.jpg "Lake level against time") |
 
 | ![ Rainfall against gate level](/assets/images/kaituna-project/rainfall-x-gate-level.jpg "Rainfall against gate level") | ![ Lake level against gate level](/assets/images/kaituna-project/lake-level-x-gate-level.jpg "Lake level against gate level") |
 
-Interestingly, neither rainfall nor lake level seem to exhibit the seasonality trends as strongly and neither seems to correlate too strongly with the average gate level. Lake level looks the most correlated but it is by no means a clear correlation. This motivates the investigation of nonlinear or interaction effects. It may also suggest that the dam operators have some sort of seasonal model that is independent of rainfall. Or, my rainfall data has been aggregated incorrectly.
+Interestingly, neither rainfall nor lake level seem to exhibit the seasonality trends as strongly and neither seems to correlate too strongly with the average gate level. Lake level looks the most correlated but it is by no means a clear correlation. This motivates the investigation of nonlinear or interaction effects. It may also suggest that the dam operators have some sort of seasonal model that is independent of rainfall. 
 
-## Quantifying seasonality
-To get a better measure of the seasonality, I constructed a periodogram:
-![ Periodogram of average flow](/assets/images/kaituna-project/periodogram.jpg "Rainfall against time")
-The plot confirms that there is a strong seasonal component existing on roughly a 4-5 year cycle and a strong annual component.
+Another possibility is that the lake level/rainfall on a given day does not correlate, but that the rainfall/lake level from earlier in the week does. This would be especially true if there is a delay between rainfall and the lake level rising.
 
-In my opinion it is debatable whether adding a seasonal indicator feature will benefit the model hugely. It is likely that the seasonality observed is in response to rainfall - so if we include rainfall as a feature, will it add significantly more information?
+TODO: Add in a plot seeing if correlation exists between the previous days' lake level, rainfall and current day's gate levels.
 
 ## Effect of previous flow rate on current
 To evaluate whether there is any use in adding previous gate levels as a feature, I used partial auto-correlation and plotted the gate levels against previous days' levels:
@@ -62,10 +70,12 @@ To evaluate whether there is any use in adding previous gate levels as a feature
 | ![ Partial autocorrelation](/assets/images/kaituna-project/pcaf.jpg "PCAF") |
 | ![ Lag plots](/assets/images/kaituna-project/lag-plots.jpg "Lag plots") |
 
-It can be seen that correlation exists potentially up to 7 days prior to any given day. Interestingly, the 2nd day's lag is not significant. The lag plots indicate some sort of nonlinear effect at longer lags.
+It can be seen that correlation exists potentially up to 7 days prior to any given day. However, it's important to consider an actual reason why this might be the case. In my opinion, it's unlikely that the flow from 7 days ago is actually going to impact the flow today. Furthermore, the only truly strong effect is from the previous day's flow. There is some nonlinear effect at higher lags, but this could be due to noise. While it's worth checking if using 7 days of data helps, I would tend towards only considering the previous day's flow as important.
 
 ## Mutual information
 I also looked at mutual information, particularly the amount contained within rainfall and lake level. I found that rainfall had 0.11 units and lake level had 0.62 units.
+
+TODO: Investigate the MI of the lagged features
 
 ## PCA 
 Finally, I decided to evaluate the PCA components of rainfall and lake level. I would expect these to be correlated and so using PCA may reveal new underlying relationships that are useful.
@@ -95,21 +105,20 @@ My main training script had two modes of operation. In one, I performed 5-fold c
 
 ## Final model architecture
 
-
 ## Results/Graphs
 
 # Operationalisation
 I wanted to serve the machine learning model up as a website, with a graph illustrating the last 3-4 days' gate levels and the predictions. The final website can be found [here](https://chrisgjarrett.github.io/kaituna-web-app/).
 
-## Model creation
-As described above, the model was trained in a Python script, locally, and the model and preprocessor were saved to file. While training locally isn't ideal and certainly not enterprise protocol, I was keen to save money and Sagemaker, Vertex AI, etc are quite expensive in my experience.
+## Model training/creation
+As described above, the model was locally trained in a Python script and the model and preprocessor were saved to file. While training locally isn't ideal and certainly not "enterprise-standard", I was keen to save money. Sagemaker, Vertex AI, etc are quite expensive in my experience.
 
 ## Making inferences
-I created a second script to make inferences. This re-uses the web-scraper from before to collect data from the BOP council website, loads the preprocessor and model, then makes a prediction. Next, it creates a JSON structure containing the predictions, dates and the time the model has been updated, and uploads the JSON to an AWS S3 bucket.
+I created a second function to make inferences. This re-uses the web-scraper from before to collect data from the BOP council website, loads the preprocessor and model, then makes a prediction. Next, it creates a JSON structure containing the predictions, dates and the time the model has been updated, and uploads the JSON to an AWS S3 bucket.
 
-The aim then, was to deploy this script as a Lambda function. However, AWS places an upper limit on the size of a lambda function and its dependencies. If this limit is exceeded, you must create the function as a docker image. I wrote a Dockerfile to do so. Additionally, I wrote a .yml pipeline that is triggered whenever the 'release-predictions' branch has changes pushed to it. The yml file compiles the Docker image, uploads it to my Elastic Container Registry on AWS, and then re-deploys the image to a Lambda function.
+The next step was to deploy this script as a Lambda function. AWS places an upper limit on the size of a lambda function and its dependencies. If this limit is exceeded, you must create the function as a docker image rather than directly uploading the code. I wrote a Dockerfile to package the code, create the Python environment, and execute the inference function.
 
-The Lambda function is configured to run every 6 hours, meaning it runs at 9am, 3pm, 9pm and 3am NZ time. This was done semi-intentionally so that paddlers can get updates in the morning, afternoon and evening.
+Additionally, I wrote a .yml pipeline that is triggered whenever I push to the 'release-predictions' branch of the repo. The yml file compiles the Docker image, uploads it to my Elastic Container Registry on AWS, and then re-deploys the image to a Lambda function. The Lambda function is configured to run every 6 hours, meaning it runs at 9am, 3pm, 9pm and 3am NZ time. These times were chosen intentionally so as to be useful - i.e. you could check the predicted flows in the morning, afternoon and evening.
 
 ## Website
-Finally, the model predictions are served to users through a [website](https://chrisgjarrett.github.io/kaituna-web-app/). The website links to the AWS S3 bucket and simply pulls the JSON file to populate its graph. In this way, client behaviour does not trigger a new prediction, which is beneficial from a resource use standpoint.
+As mentioned, the model predictions are served to users through a [website](https://chrisgjarrett.github.io/kaituna-web-app/). The website pulls the JSON file containing the predictions from my AWS S3 bucket to populate its graph. In this way, client behaviour does not trigger a new prediction, which is beneficial from a resource use standpoint.
