@@ -70,7 +70,7 @@ I also looked at mutual information, particularly the amount contained within ra
 ## PCA 
 Finally, I decided to evaluate the PCA components of rainfall and lake level. I would expect these to be correlated and so using PCA may reveal new underlying relationships that are useful.
 
-|:           :|:      PC1 :|:       PC2 :|
+|           |      PC1 |       PC2 |
 |:-----------:|:----------:|:-----------:|
 |  Rainfall | 0.707107 |  0.707107 |
 | LakeLevel | 0.707107 | -0.707107 |
@@ -82,8 +82,34 @@ The mutual information of these components was 0.47 and 0.41 respectively. The l
 ## Summary
 From data exploration, I observed that there is a strong seasonal component to the gate levels, with a particularly interesting multi-year cycle. Rainfall and lake level both have significant mutual information with the gate level, and when PCA was used, the contribution of each to the mutual information was more equal.
 
-# Model selection
-- LSTM
-- ANN
-- hybrid
-Initially, I looked 
+# Training a model
+I went through several iterations of model selection, but settled on using a neural network to predict three days' worth of gate levels. I tried several architectures but focused mainly on variations of LSTMs, as they are particularly suited to timeseries data. 
+
+## Feature selection
+
+## MLFlow
+I used MLFlow to set up an experiment tracker. I wasn't very rigorous about using it, but it was good to be introduced to the concept of experiment tracking. I set it up to record the model, the training dataset and several training/model parameters.
+
+## Cross validation
+My main training script had two modes of operation. In one, I performed 5-fold cross validation on my model. This is where I would compare different models. When I was ready for training, I performed a different split (95/5) and trained a final model. The trained model, and a trained preprocessor, were saved to operationalise the system.
+
+## Final model architecture
+
+
+## Results/Graphs
+
+# Operationalisation
+I wanted to serve the machine learning model up as a website, with a graph illustrating the last 3-4 days' gate levels and the predictions. The final website can be found [here](https://chrisgjarrett.github.io/kaituna-web-app/).
+
+## Model creation
+As described above, the model was trained in a Python script, locally, and the model and preprocessor were saved to file. While training locally isn't ideal and certainly not enterprise protocol, I was keen to save money and Sagemaker, Vertex AI, etc are quite expensive in my experience.
+
+## Making inferences
+I created a second script to make inferences. This re-uses the web-scraper from before to collect data from the BOP council website, loads the preprocessor and model, then makes a prediction. Next, it creates a JSON structure containing the predictions, dates and the time the model has been updated, and uploads the JSON to an AWS S3 bucket.
+
+The aim then, was to deploy this script as a Lambda function. However, AWS places an upper limit on the size of a lambda function and its dependencies. If this limit is exceeded, you must create the function as a docker image. I wrote a Dockerfile to do so. Additionally, I wrote a .yml pipeline that is triggered whenever the 'release-predictions' branch has changes pushed to it. The yml file compiles the Docker image, uploads it to my Elastic Container Registry on AWS, and then re-deploys the image to a Lambda function.
+
+The Lambda function is configured to run every 6 hours, meaning it runs at 9am, 3pm, 9pm and 3am NZ time. This was done semi-intentionally so that paddlers can get updates in the morning, afternoon and evening.
+
+## Website
+Finally, the model predictions are served to users through a [website](https://chrisgjarrett.github.io/kaituna-web-app/). The website links to the AWS S3 bucket and simply pulls the JSON file to populate its graph. In this way, client behaviour does not trigger a new prediction, which is beneficial from a resource use standpoint.
