@@ -12,7 +12,7 @@ gallery:
 
 <!--{% include gallery caption="This is a sample gallery to go along with this case study." %} -->
 
-### Summary of tech stack and skills
+#### Summary of tech stack and skills
 * Neural networks
   * Tensorflow
   * Keras
@@ -34,10 +34,10 @@ The gate levels, and several other data points, are all recorded and can be foun
 
 ## Problem definition
 
-### Data resolution
+#### Data resolution
 Most of the data is collected at 5 minute intervals, while rainfall is measured on an hourly basis. I decided that hourly resolution was too granular. Typically, the gate levels are set in the morning or late at night which results in long periods of the day where the gate level does not change. Therefore, I decided that it was most useful to try and predict the flow on a daily basis.
 
-### Target variable
+#### Target variable
 I averaged all three gate levels to produce one value for each hour of the day, then took the median of all values to represent the day's gate level. By using the median rather than mean, my average value is not unfairly biased by short amounts of data in the early morning or late evening where the gate level changes. 
 
 ## Feature selection
