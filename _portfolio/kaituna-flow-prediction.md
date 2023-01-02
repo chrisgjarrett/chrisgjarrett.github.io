@@ -107,16 +107,12 @@ It is also interesting to examine the correlation of lake levels and rainfall, a
 
 ![ Lake level against past rainfall](/assets/images/kaituna-project/lagged-rainfall-x-lake-level.jpg "Lake level against past rainfall")
 
-<center>
-
 |Days lagged|Pearson Coefficient|p value|
 |:-----------:|:----------:|:-----------:|
 |0|0.19|0.00|
 |1|0.29|0.00|
 |2|0.27|0.00|
 |3|0.24|0.00|
-
-</center>
 
 Of course, this only tests for a linear relationship. Nonetheless, given there is some correlation, it is interesting to consider PCA as it may reveal new underlying relationships that are useful.
 
@@ -134,35 +130,17 @@ I used mutual information to get an idea of how much variance in gate level each
 
 Rainfall
 
-|Days lagged|Mutual information|
-|:-----------:|:----------:|:-----------:|
-|0|0.00|
-|1|0.00|
-|2|0.00|
-|3|0.00|
+|Days lagged|Rainfall|Lake Level|PCA component 1|PCA component 2|
+|:-----------:|:----------:|:----------:|:----------:|
+|0|0.11|0.62|0.48|0.41|
+|1|0.15|0.69|0.54|0.44|
+|2|0.12|0.67|0.54|0.43|
+|3|0.12|0.66|0.51|0.43|
 
-Lake Level
-
-|Days lagged|Mutual information|
-|:-----------:|:----------:|:-----------:|
-|0|0.00|
-|1|0.00|
-|2|0.00|
-|3|0.00|
-
-PCA components
-
-|Days lagged|Mutual information|
-|:-----------:|:----------:|:-----------:|
-|0|0.00|
-|1|0.00|
-|2|0.00|
-|3|0.00|
-
-I also looked at mutual information, particularly the amount contained within rainfall and lake level. I found that rainfall had 0.11 units and lake level had 0.62 units.
+The mutual information results confirm the correlation analysis: across all features, the values from previous days have more of an effect on a given day's gate levels than the current day's values.
 
 ## Summary
-From data exploration, I observed that there is a strong seasonal component to the gate levels, with a particularly interesting multi-year cycle. Rainfall and lake level both have significant mutual information with the gate level, and when PCA was used, the contribution of each to the mutual information was more equal. In addition, rainfall and lake level from the days prior have more of an effect on a given day's gate levels than that day's rainfall and lake level.
+From data exploration, I observed that there is a strong seasonal component to the gate levels, with a particularly interesting multi-year cycle. Lake level is more strongly correlated with the gate levels than rainfall, and PCA analyses indicated that inclduing PCA components may be useful. For all features, the values on a given day are not as important as what the values were in previous days: i.e. the rainfall and lake level from days prior are more important for explaining the variance in gate level than the same-day values.
 
 # Training a model
 I went through several iterations of model selection, but settled on using a neural network to predict three days' worth of gate levels. I tried several architectures but focused mainly on variations of LSTMs, as they are particularly suited to timeseries data. 
