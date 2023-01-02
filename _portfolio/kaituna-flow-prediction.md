@@ -79,6 +79,7 @@ It is important to consider that there may be a delayed effect of rainfall or la
 ![ Lagged rainfall against gate level](/assets/images/kaituna-project/lagged-rainfall-against-gate.jpg "Lagged rainfall against gate level")
 
 Pearson correlation for lagged rainfall against gate level
+
 |Days lagged|Pearson Coefficient|p value|
 |:-----------:|:----------:|:-----------:|
 |0|0.15|4.60e-10|
@@ -89,6 +90,7 @@ Pearson correlation for lagged rainfall against gate level
 ![ Lagged lake against gate levels](/assets/images/kaituna-project/lagged-lake-against-gate.jpg "Lagged lake against gate levels")
 
 Pearson correlation for lagged lake level against gate level
+
 |Days lagged|Pearson Coefficient|p value|
 |:-----------:|:----------:|:-----------:|
 |0|0.55|5.75e-139|
