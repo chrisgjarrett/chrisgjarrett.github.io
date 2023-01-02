@@ -128,14 +128,19 @@ The mutual information of these components was 0.47 and 0.41 respectively. The l
 ## Mutual information
 I used mutual information to get an idea of how much variance in gate level each variable explained. I did this for rainfall, lake level and the two PCA components. For each, I also investigated how much variance was explained by lagging the features by 1,2, and 3 days.
 
-Rainfall
-
 |Days lagged|Rainfall|Lake Level|PCA component 1|PCA component 2|
-|:-----------:|:----------:|:----------:|:----------:|
+|:-----------:|:----------:|:----------:|:----------:|:----------:|
 |0|0.11|0.62|0.48|0.41|
 |1|0.15|0.69|0.54|0.44|
 |2|0.12|0.67|0.54|0.43|
 |3|0.12|0.66|0.51|0.43|
+
+|Feature|Same day|1 day lag|2 day lag|3 day lag|
+|:-----------:|:----------:|:----------:|:----------:|:----------:|
+|Rainfall|0.11|0.15|0.12|0.12|
+|Lake Level|0.62|0.69|0.67|0.66|
+|PCA component 1|0.48|0.54|0.54|0.51|
+|PCA component 2|0.41|0.44|0.43|0.43|
 
 The mutual information results confirm the correlation analysis: across all features, the values from previous days have more of an effect on a given day's gate levels than the current day's values.
 
