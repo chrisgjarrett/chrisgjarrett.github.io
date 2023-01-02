@@ -79,7 +79,8 @@ It is important to consider that there may be a delayed effect of rainfall or la
 
 |![ Lagged rainfall against gate level](/assets/images/kaituna-project/lagged-rainfall-against-gate.jpg "Lagged rainfall against gate level")|![ Lagged lake against gate levels](/assets/images/kaituna-project/lagged-lake-against-gate.jpg "Lagged lake against gate levels")|
 
-##### Pearson correlation coefficients for rainfall/lake level against gate level
+###### Pearson correlation coefficients for rainfall/lake level against gate level
+
 |Feature|0 days lag|1 day lag|2 days lag| 3 days lag|
 |:-----------:|:----------:|:-----------:|:-----------:|:-----------:|
 |Rainfall|0.15|0.26|0.28|0.24|
@@ -96,7 +97,8 @@ It is also interesting to examine the correlation of lake levels and rainfall, a
 
 ![ Lake level against past rainfall](/assets/images/kaituna-project/lagged-rainfall-x-lake-level.jpg "Lake level against past rainfall")
 
-##### Pearson correlation coefficients for rainfall and lake level
+###### Pearson correlation coefficients for rainfall and lake level
+
 |Days of lag||0 days|1 day|2 days|3 days|
 |:----------:|:----------:|:-----------:|:-----------:|:-----------:|
 |Correlation coefficient||0.19|0.29|0.27|0.24|
@@ -105,7 +107,8 @@ It is also interesting to examine the correlation of lake levels and rainfall, a
 
 Of course, this only tests for a linear relationship. Nonetheless, given there is some correlation, it is interesting to consider PCA as it may reveal new underlying relationships that are useful.
 
-##### PCA loadings
+###### PCA loadings
+
 |           |      PC1 |       PC2 |
 |:-----------:|:----------:|:-----------:|
 |  Rainfall | 0.707 |  0.707 |
@@ -118,7 +121,8 @@ The mutual information of these components was 0.47 and 0.41 respectively. The l
 ## Mutual information
 I used mutual information to get an idea of how much variance in gate level each variable explained. I did this for rainfall, lake level and the two PCA components. For each, I also investigated how much variance was explained by lagging the features by 1,2, and 3 days.
 
-##### Mutual information between features and gate level for varying lags
+###### Mutual information between features and gate level for varying lags
+
 |Feature|Same day|1 day lag|2 day lag|3 day lag|
 |:-----------:|:----------:|:----------:|:----------:|:----------:|
 |Rainfall|0.11|0.15|0.12|0.12|
