@@ -67,6 +67,7 @@ It can be seen that correlation exists potentially up to 7 days prior to any giv
 ## Rainfall and lake level
 First, I examine the rainfall and lake level against time and their correlation with the day's  gate level. 
 
+|Rainfall|Lake level|
 | ![ Rainfall against time](/assets/images/kaituna-project/rainfall-against-time.jpg "Rainfall against time") | ![ Lake level against time](/assets/images/kaituna-project/lake-level-against-time.jpg "Lake level against time") |
 
 | ![ Rainfall against gate level](/assets/images/kaituna-project/rainfall-x-gate-level.jpg "Rainfall against gate level") | ![ Lake level against gate level](/assets/images/kaituna-project/lake-level-x-gate-level.jpg "Lake level against gate level") |
@@ -84,7 +85,7 @@ It is important to consider that there may be a delayed effect of rainfall or la
 |Rainfall|0.15|0.26|0.28|0.24|
 |Lake level|0.55|0.57|0.57|0.55|
 
-* p value for all coefficients was 0
+*p value for all coefficients was 0
 
 For rainfall, the correlation between a given day's rainfall and a given day's gate levels is not as strong as comparing the given day's gate levels to the rainfall in the preceding days. That is, the rainfall appears to have a delayed effect on the gate levels. For lake level, the correlation with gate level is stronger, however, it does not change as much with previous days. 
 
@@ -100,7 +101,7 @@ It is also interesting to examine the correlation of lake levels and rainfall, a
 |:----------:|:----------:|:-----------:|:-----------:|:-----------:|
 |Correlation coefficient||0.19|0.29|0.27|0.24|
 
-* p value for all correlation coefficients was 0
+*p value for all correlation coefficients was 0
 
 Of course, this only tests for a linear relationship. Nonetheless, given there is some correlation, it is interesting to consider PCA as it may reveal new underlying relationships that are useful.
 
