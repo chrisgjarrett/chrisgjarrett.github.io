@@ -108,13 +108,16 @@ It is also interesting to examine the correlation of lake levels and rainfall, a
 ![ Lake level against past rainfall](/assets/images/kaituna-project/lagged-rainfall-x-lake-level.jpg "Lake level against past rainfall")
 
 <center>
+
 |Days lagged|Pearson Coefficient|p value|
 |:-----------:|:----------:|:-----------:|
 |0|0.19|0.00|
 |1|0.29|0.00|
 |2|0.27|0.00|
 |3|0.24|0.00|
+
 </center>
+
 Of course, this only tests for a linear relationship. Nonetheless, given there is some correlation, it is interesting to consider PCA as it may reveal new underlying relationships that are useful.
 
 |           |      PC1 |       PC2 |
@@ -127,9 +130,34 @@ Of course, this only tests for a linear relationship. Nonetheless, given there i
 The mutual information of these components was 0.47 and 0.41 respectively. The loadings are interesting - one indicates a positive correlation and one indicates a negative correlation. It may be that this represents the increase in lake level because of rainfall, and the pre-emptive emptying of the lake in response to high rainfall/high forecasted rainfall.
 
 ## Mutual information
-I used mutual information to get an idea of how much information each variable contained in relation to the average gate level. I did this for rainfall, lake level, up to 3 days' lagged rainfall/lake level, and the two PCA components
+I used mutual information to get an idea of how much variance in gate level each variable explained. I did this for rainfall, lake level and the two PCA components. For each, I also investigated how much variance was explained by lagging the features by 1,2, and 3 days.
 
+Rainfall
 
+|Days lagged|Mutual information|
+|:-----------:|:----------:|:-----------:|
+|0|0.00|
+|1|0.00|
+|2|0.00|
+|3|0.00|
+
+Lake Level
+
+|Days lagged|Mutual information|
+|:-----------:|:----------:|:-----------:|
+|0|0.00|
+|1|0.00|
+|2|0.00|
+|3|0.00|
+
+PCA components
+
+|Days lagged|Mutual information|
+|:-----------:|:----------:|:-----------:|
+|0|0.00|
+|1|0.00|
+|2|0.00|
+|3|0.00|
 
 I also looked at mutual information, particularly the amount contained within rainfall and lake level. I found that rainfall had 0.11 units and lake level had 0.62 units.
 
