@@ -69,34 +69,21 @@ First, I examine the rainfall and lake level against time and their correlation 
 
 | ![ Rainfall against time](/assets/images/kaituna-project/rainfall-against-time.jpg "Rainfall against time") | ![ Lake level against time](/assets/images/kaituna-project/lake-level-against-time.jpg "Lake level against time") |
 
-| ![ Rainfall against gate level](/assets/images/kaituna-project/lake-level-x-gate-level.jpg "Rainfall against gate level") | ![ Lake level against gate level](/assets/images/kaituna-project/rainfall-x-gate-level.jpg "Lake level against gate level") |
+| ![ Rainfall against gate level](/assets/images/kaituna-project/rainfall-x-gate-level.jpg "Rainfall against gate level") | ![ Lake level against gate level](/assets/images/kaituna-project/lake-level-x-gate-level.jpg "Lake level against gate level") |
 
 Interestingly, neither rainfall nor lake level seem to exhibit the seasonality trends as strongly and neither seems to correlate too strongly with the average gate level. Lake level looks the most correlated but it is by no means a strong correlation. This could suggest that the dam operators have a seasonal model of operation that is independent of rainfall, or that there are some nonlinear or interaction effects between rainfall and lake level that are significant. The correlation for each is quantified in the next section.
 
 ### Delayed effect of rainfall/lake level on gate levels
 It is important to consider that there may be a delayed effect of rainfall or lake level on the gate levels. That is, that rainfall on a given day may result in the lake rising one or two days later. To this end, I can plot the lagged rainfall and lagged lake levels against gate level to investigate this effect. This is shown below for 0,1,2 and 3 days, with corresponding Pearson correlation coefficients. 
 
-![ Lagged rainfall against gate level](/assets/images/kaituna-project/lagged-rainfall-against-gate.jpg "Lagged rainfall against gate level")
+|![ Lagged rainfall against gate level](/assets/images/kaituna-project/lagged-rainfall-against-gate.jpg "Lagged rainfall against gate level")|![ Lagged lake against gate levels](/assets/images/kaituna-project/lagged-lake-against-gate.jpg "Lagged lake against gate levels")|
 
-Pearson correlation for lagged rainfall against gate level
+|Feature|Same-day|1 day lag|2 days lag| 3 days lag|
+|:-----------:|:----------:|:-----------:|:-----------:|:-----------:|
+|Rainfall|0.15|0.26|0.28|0.24|
+|Lake level|0.55|0.57|0.57|0.55|
 
-|Days lagged|Pearson Coefficient|p value|
-|:-----------:|:----------:|:-----------:|
-|0|0.15|0.00|
-|1|0.26|0.00|
-|2|0.28|0.00|
-|3|0.24|0.00|
-
-![ Lagged lake against gate levels](/assets/images/kaituna-project/lagged-lake-against-gate.jpg "Lagged lake against gate levels")
-
-Pearson correlation for lagged lake level against gate level
-
-|Days lagged|Pearson Coefficient|p value|
-|:-----------:|:----------:|:-----------:|
-|0|0.55|0.00|
-|1|0.57|0.00|
-|2|0.57|0.00|
-|3|0.55|0.00|
+* p value for all coefficients was 0
 
 For rainfall, the correlation between a given day's rainfall and a given day's gate levels is not as strong as comparing the given day's gate levels to the rainfall in the preceding days. That is, the rainfall appears to have a delayed effect on the gate levels. For lake level, the correlation with gate level is stronger, however, it does not change as much with previous days. 
 
@@ -107,19 +94,16 @@ It is also interesting to examine the correlation of lake levels and rainfall, a
 
 ![ Lake level against past rainfall](/assets/images/kaituna-project/lagged-rainfall-x-lake-level.jpg "Lake level against past rainfall")
 
-|Days lagged|Pearson Coefficient|p value|
-|:-----------:|:----------:|:-----------:|
-|0|0.19|0.00|
-|1|0.29|0.00|
-|2|0.27|0.00|
-|3|0.24|0.00|
+|Same-day|1 day lag|2 days lag| 3 days lag|
+|:----------:|:-----------:|:-----------:|:-----------:|
+|0.19|0.29|0.27|0.24|
 
 Of course, this only tests for a linear relationship. Nonetheless, given there is some correlation, it is interesting to consider PCA as it may reveal new underlying relationships that are useful.
 
 |           |      PC1 |       PC2 |
 |:-----------:|:----------:|:-----------:|
 |  Rainfall | 0.707 |  0.707 |
-| LakeLevel | 0.707 | -0.707 |
+| Lake level | 0.707 | -0.707 |
 
 ![ PCA explained variance](/assets/images/kaituna-project/pca-variance-plots.jpg "PCA explained variance")
 
@@ -128,17 +112,10 @@ The mutual information of these components was 0.47 and 0.41 respectively. The l
 ## Mutual information
 I used mutual information to get an idea of how much variance in gate level each variable explained. I did this for rainfall, lake level and the two PCA components. For each, I also investigated how much variance was explained by lagging the features by 1,2, and 3 days.
 
-|Days lagged|Rainfall|Lake Level|PCA component 1|PCA component 2|
-|:-----------:|:----------:|:----------:|:----------:|:----------:|
-|0|0.11|0.62|0.48|0.41|
-|1|0.15|0.69|0.54|0.44|
-|2|0.12|0.67|0.54|0.43|
-|3|0.12|0.66|0.51|0.43|
-
 |Feature|Same day|1 day lag|2 day lag|3 day lag|
 |:-----------:|:----------:|:----------:|:----------:|:----------:|
 |Rainfall|0.11|0.15|0.12|0.12|
-|Lake Level|0.62|0.69|0.67|0.66|
+|Lake level|0.62|0.69|0.67|0.66|
 |PCA component 1|0.48|0.54|0.54|0.51|
 |PCA component 2|0.41|0.44|0.43|0.43|
 
