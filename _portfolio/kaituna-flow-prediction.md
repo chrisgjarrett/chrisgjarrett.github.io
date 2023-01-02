@@ -82,7 +82,7 @@ It is important to consider that there may be a delayed effect of rainfall or la
 
 ###### Pearson correlation coefficients for rainfall/lake level against gate level
 
-|Feature|0 days' lag|1 day's lag|2 days' lag| 3 days' lag|
+||0 days' lag|1 day's lag|2 days' lag| 3 days' lag|
 |:-----------:|:----------:|:-----------:|:-----------:|:-----------:|
 |Rainfall|0.15|0.26|0.28|0.24|
 |Lake level|0.55|0.57|0.57|0.55|
@@ -124,7 +124,7 @@ I used mutual information to get an idea of how much variance in gate level each
 
 ###### Mutual information between features and gate level for varying lags
 
-|Feature/Days of lag|0 days' lag|1 day's lag|2 days' lag|3 days' lag|
+||0 days' lag|1 day's lag|2 days' lag|3 days' lag|
 |:-----------:|:----------:|:----------:|:----------:|:----------:|
 |Rainfall|0.11|0.15|0.12|0.12|
 |Lake level|0.62|0.69|0.67|0.66|
