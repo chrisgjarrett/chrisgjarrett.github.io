@@ -82,10 +82,10 @@ Pearson correlation for lagged rainfall against gate level
 
 |Days lagged|Pearson Coefficient|p value|
 |:-----------:|:----------:|:-----------:|
-|0|0.15|4.60e<sup>-10</sup>|
-|1|0.26|2.30e<sup>-29</sup>|
-|2|0.28|1.06e<sup>-32</sup>|
-|3|0.24|6.31e<sup>-24</sup>|
+|0|0.15|0.00|
+|1|0.26|0.00|
+|2|0.28|0.00|
+|3|0.24|0.00|
 
 ![ Lagged lake against gate levels](/assets/images/kaituna-project/lagged-lake-against-gate.jpg "Lagged lake against gate levels")
 
@@ -93,10 +93,10 @@ Pearson correlation for lagged lake level against gate level
 
 |Days lagged|Pearson Coefficient|p value|
 |:-----------:|:----------:|:-----------:|
-|0|0.55|5.75e<sup>-139</sup>|
-|1|0.57|5.68e<sup>-156</sup>|
-|2|0.57|8.69e<sup>-153</sup>|
-|3|0.55|8.69e<sup>-153</sup>|
+|0|0.55|0.00|
+|1|0.57|0.00|
+|2|0.57|0.00|
+|3|0.55|0.00|
 
 For rainfall, the correlation between a given day's rainfall and a given day's gate levels is not as strong as comparing the given day's gate levels to the rainfall in the preceding days. That is, the rainfall appears to have a delayed effect on the gate levels. For lake level, the correlation with gate level is stronger, however, it does not change as much with previous days. 
 
@@ -109,17 +109,17 @@ It is also interesting to examine the correlation of lake levels and rainfall, a
 
 |Days lagged|Pearson Coefficient|p value|
 |:-----------:|:----------:|:-----------:|
-|0|0.19|3.78e<sup>-16</sup>|
-|1|0.29|3.42<sup>e-36</sup>|
-|2|0.27|3.21<sup>e-32</sup>|
-|3|0.24|2.46<sup>e-25</sup>|
+|0|0.19|0.00|
+|1|0.29|0.00|
+|2|0.27|0.00|
+|3|0.24|0.00|
 
 Of course, this only tests for a linear relationship. Nonetheless, given there is some correlation, it is interesting to consider PCA as it may reveal new underlying relationships that are useful.
 
 |           |      PC1 |       PC2 |
 |:-----------:|:----------:|:-----------:|
-|  Rainfall | 0.707107 |  0.707107 |
-| LakeLevel | 0.707107 | -0.707107 |
+|  Rainfall | 0.707 |  0.707 |
+| LakeLevel | 0.707 | -0.707 |
 
 ![ PCA explained variance](/assets/images/kaituna-project/pca-variance-plots.jpg "PCA explained variance")
 
