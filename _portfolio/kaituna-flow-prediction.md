@@ -78,34 +78,35 @@ It is important to consider that there may be a delayed effect of rainfall or la
 
 ![ Lagged rainfall against gate level](/assets/images/kaituna-project/lagged-rainfall-against-gate.jpg "Lagged rainfall against gate level")
 
-|Pearson correlation for lagged rainfall against gate level|
-|:-----------:|:----------:|:-----------:|
+Pearson correlation for lagged rainfall against gate level
 |Days lagged|Pearson Coefficient|p value|
-|0|0.15|4.60-10|
-|1|0.26|2.30-29|
-|2|0.28|1.06-32|
-|3|0.24|6.31-24|
+|:-----------:|:----------:|:-----------:|
+|0|0.15|4.60e-10|
+|1|0.26|2.30e-29|
+|2|0.28|1.06e-32|
+|3|0.24|6.31e-24|
 
 ![ Lagged lake against gate levels](/assets/images/kaituna-project/lagged-lake-against-gate.jpg "Lagged lake against gate levels")
 
-|Pearson correlation for lagged lake level against gate level|
-|:-----------:|:----------:|:-----------:|
+Pearson correlation for lagged lake level against gate level
 |Days lagged|Pearson Coefficient|p value|
-|0|0.55|5.75-139|
-|1|0.57|5.68-156|
-|2|0.57|8.69-153|
-|3|0.55|8.69-153|
+|:-----------:|:----------:|:-----------:|
+|0|0.55|5.75e-139|
+|1|0.57|5.68e-156|
+|2|0.57|8.69e-153|
+|3|0.55|8.69e-153|
 
 For rainfall, the correlation between a given day's rainfall and a given day's gate levels is not as strong as comparing the given day's gate levels to the rainfall in the preceding days. That is, the rainfall appears to have a delayed effect on the gate levels. For lake level, the correlation with gate level is stronger, however, it does not change as much with previous days. 
 
 Of course, the Pearson correlation coefficient only tests for linear correlation, nonetheless the results are interesting. They suggest that the previous day's rainfall is more important than the current rainfall in determining the current day's gate level. It also shows that lake level is important, and more correlated with the gate levels than rainfall. However, each day appears to be equally correlated with the current day's gate levels.
 
 ### Correlation between rainfall and lake level
-It is also interesting to examine the correlation of lake levels and rainfall. Here, I have plotted lake level against the rainfall from 0, 1, 2 and 3 days ago and computed the Pearson correlation coefficient for each. It appears that there is only weak correlation for all cases, but that the lagged variables are indeed more correlated than the same-day relationship, with the previous day's rainfall most strongly correlated with the present days' lake level and the relationship tailing off for days beyond that. 
+It is also interesting to examine the correlation of lake levels and rainfall, and quantify the delayed effect of rainfall on lake level. Here, I have plotted lake level against the rainfall from 0, 1, 2 and 3 days ago and computed the Pearson correlation coefficient for each. It appears that there is only weak correlation for all cases, but that the rainfall from days prior is indeed more correlated than the same-day relationship. 
 
 ![ Lake level against past rainfall](/assets/images/kaituna-project/lagged-rainfall-x-lake-level.jpg "Lake level against past rainfall")
 
 |Days lagged|Pearson Coefficient|p value|
+|:-----------:|:----------:|:-----------:|
 |0|0.19|pvalue=3.78e-16|
 |1|0.29|, pvalue=3.42e-36|
 |2|0.27|, pvalue=3.21e-32|
