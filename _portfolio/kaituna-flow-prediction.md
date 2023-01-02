@@ -12,7 +12,7 @@ gallery:
 
 <!--{% include gallery caption="This is a sample gallery to go along with this case study." %} -->
 
-# Summary of tech stack and skills
+### Summary of tech stack and skills
 * Neural networks
   * Tensorflow
   * Keras
@@ -40,29 +40,56 @@ Most of the data is collected at 5 minute intervals, while rainfall is measured 
 ### Target variable
 I averaged all three gate levels to produce one value for each hour of the day, then took the median of all values to represent the day's gate level. By using the median rather than mean, my average value is not unfairly biased by short amounts of data in the early morning or late evening where the gate level changes. 
 
+## Feature selection
+I decided to use previous gate levels, lake level and rainfall as the 'base' features. I know that lake level and rainfall are the most significant drivers of gate level, as the river is used to maintain lake level. Additionally, there may be utility in including previous gate levels as predictors of the next days' levels.
+
 # Data collection
 To gather the data, I built a web-scraper in Python, the source code for which is [here](https://github.com/chrisgjarrett/kaituna-model/blob/development/web_scraper/kaituna_web_scraper.py). The function grabs the level of lake rotoiti, the gate levels, flow rates and rainfall data. The output is a dataframe with hourly resolution data over the specified time range.
 
 # Data exploration
 After aggregating the data into daily resolution, I began data exploration. Initially, I wanted to get a feel for what the data looked like, before diving into exploring the relationships of different features on the output
 
-## Average gate levels
-![ Average gate levels](/assets/images/kaituna-project/flowrate-against-time.jpg "Average gate levels")
+## Gate levels
+![ Average gate levels](/assets/images/kaituna-project/gate-level-against-time.jpg "Average gate levels")
 
-Immediately, it is clear that there is strong seasonality in the average gate levels. In addition to annual seasonality, where gate levels rise during winter, there is also a 4-5 year cycle, possibly corresponding to the La Nina/El Nino cycles. This is confirmed by a periodogram:
+Immediately, it is clear that there is strong seasonality in the daily median gate levels. In addition to annual seasonality, where gate levels rise during winter, there is also a 4-5 year cycle, possibly corresponding to the La Nina/El Nino cycles. This is confirmed by a periodogram:
 
 ![ Periodogram of average flow](/assets/images/kaituna-project/periodogram.jpg "Rainfall against time")
 
-## Rainfall and lake levels
+## Rainfall and lake level
+
+First, I examine the rainfall and lake level against time. 
+
 | ![ Rainfall against time](/assets/images/kaituna-project/rainfall-against-time.jpg "Rainfall against time") | ![ Lake level against time](/assets/images/kaituna-project/rainfall-against-time.jpg "Lake level against time") |
 
 | ![ Rainfall against gate level](/assets/images/kaituna-project/rainfall-x-gate-level.jpg "Rainfall against gate level") | ![ Lake level against gate level](/assets/images/kaituna-project/lake-level-x-gate-level.jpg "Lake level against gate level") |
 
-Interestingly, neither rainfall nor lake level seem to exhibit the seasonality trends as strongly and neither seems to correlate too strongly with the average gate level. Lake level looks the most correlated but it is by no means a clear correlation. This motivates the investigation of nonlinear or interaction effects. It may also suggest that the dam operators have some sort of seasonal model that is independent of rainfall. 
+Interestingly, neither rainfall nor lake level seem to exhibit the seasonality trends as strongly and neither seems to correlate too strongly with the average gate level. Lake level looks the most correlated but it is by no means a clear correlation. This could suggest that the dam operators have a seasonal model of operation that is independent of rainfall, or that there are some nonlinear or interaction effects between rainfall and lake level that are significant.
 
-Another possibility is that the lake level/rainfall on a given day does not correlate, but that the rainfall/lake level from earlier in the week does. This would be especially true if there is a delay between rainfall and the lake level rising.
+### Delayed effect of rainfall/lake level on gate levels
+It is important to consider that there may be a delayed effect of rainfall or lake level on the gate levels. That is, that rainfall on a given day may result in the lake rising one or two days later. To this end, I can plot the lagged rainfall and lagged lake levels against gate level to investigate this effect. This is shown below for 0,1,2 and 3 days, with corresponding Pearson correlation coefficients. 
 
-TODO: Add in a plot seeing if correlation exists between the previous days' lake level, rainfall and current day's gate levels.
+| ![ Lagged lake against gate levels](/assets/images/kaituna-project/lagged-lake-against-gate.jpg "Lagged lake against gate levels") |
+| ![ Lagged rainfall against gate level](/assets/images/kaituna-project/lagged-rainfall-against-gate.jpg "Lagged rainfall against gate level") |
+
+|Days lagged|Pearson Coefficient|p value|
+|0|0.15|pvalue=4.60-10|
+|1|0.26|, pvalue=2.30-29|
+|2|0.28|, pvalue=1.06-32|
+|3|0.24|, pvalue=6.31-24|
+
+
+### Lagged lake level against gate level
+
+|Days lagged|Pearson Coefficient|p value|
+|0|0.55|, pvalue=5.75-139|
+|1|0.57|, pvalue=5.68-156|
+|2|0.57|, pvalue=8.69-153|
+|3|0.55|, pvalue=8.69-153|
+
+For rainfall, the correlation between a given day's rainfall and a given day's gate levels is not as strong as comparing the given day's gate levels to the rainfall in the preceding days. That is, the rainfall appears to have a delayed effect on the gate levels. For lake level, the correlation with gate level is stronger, however, it does not change as much with previous days. 
+
+Of course, the Pearson correlation coefficient only tests for linear correlation, nonetheless the results are interesting. They suggest that the previous day's rainfall is more important than the current rainfall in determining the current day's gate level. It also shows that lake level is important, and more correlated with the gate levels than rainfall. However, each day appears to be equally correlated with the current day's gate levels.
 
 ## Effect of previous flow rate on current
 To evaluate whether there is any use in adding previous gate levels as a feature, I used partial auto-correlation and plotted the gate levels against previous days' levels:
@@ -75,10 +102,18 @@ It can be seen that correlation exists potentially up to 7 days prior to any giv
 ## Mutual information
 I also looked at mutual information, particularly the amount contained within rainfall and lake level. I found that rainfall had 0.11 units and lake level had 0.62 units.
 
-TODO: Investigate the MI of the lagged features
+## Correlation between rainfall and lake level
+It is also interesting to examine the correlation of lake levels and rainfall. Here, I have plotted lake level against the rainfall from 0,1,2 and 3 days ago and computed the Pearson correlation coefficient for each. It appears that there is only weak correlation for all cases, but that the lagged variables are indeed more correlated than the same-day relationship, with the previous day's rainfall most strongly correlated with the present days' lake level and the relationship tailing off for days beyond that. 
 
-## PCA 
-Finally, I decided to evaluate the PCA components of rainfall and lake level. I would expect these to be correlated and so using PCA may reveal new underlying relationships that are useful.
+![ Lake level against past rainfall](/assets/images/kaituna-project/lagged-rainfall-x-lake-level.jpg "Lake level against past rainfall")
+
+|Days lagged|Pearson Coefficient|p value|
+|0|0.19|pvalue=3.78e-16|
+|1|0.29|, pvalue=3.42e-36|
+|2|0.27|, pvalue=3.21e-32|
+|3|0.24|, pvalue=2.46e-25|
+
+Of course, this only tests for a linear relationship. Nonetheless, given there is some correlation, it is interesting to consider PCA as it may reveal new underlying relationships that are useful.
 
 |           |      PC1 |       PC2 |
 |:-----------:|:----------:|:-----------:|
@@ -94,8 +129,6 @@ From data exploration, I observed that there is a strong seasonal component to t
 
 # Training a model
 I went through several iterations of model selection, but settled on using a neural network to predict three days' worth of gate levels. I tried several architectures but focused mainly on variations of LSTMs, as they are particularly suited to timeseries data. 
-
-## Feature selection
 
 ## MLFlow
 I used MLFlow to set up an experiment tracker. I wasn't very rigorous about using it, but it was good to be introduced to the concept of experiment tracking. I set it up to record the model, the training dataset and several training/model parameters.
