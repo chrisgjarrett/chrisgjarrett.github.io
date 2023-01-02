@@ -93,10 +93,10 @@ Pearson correlation for lagged lake level against gate level
 
 |Days lagged|Pearson Coefficient|p value|
 |:-----------:|:----------:|:-----------:|
-|0|0.55|5.75e-139|
-|1|0.57|5.68e-156|
-|2|0.57|8.69e-153|
-|3|0.55|8.69e-153|
+|0|0.55|5.75e<sup>-139</sup>|
+|1|0.57|5.68e<sup>-156</sup>|
+|2|0.57|8.69e<sup>-153</sup>|
+|3|0.55|8.69e<sup>-153</sup>|
 
 For rainfall, the correlation between a given day's rainfall and a given day's gate levels is not as strong as comparing the given day's gate levels to the rainfall in the preceding days. That is, the rainfall appears to have a delayed effect on the gate levels. For lake level, the correlation with gate level is stronger, however, it does not change as much with previous days. 
 
