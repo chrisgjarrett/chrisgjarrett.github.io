@@ -12,6 +12,13 @@ gallery:
 
 <!--{% include gallery caption="This is a sample gallery to go along with this case study." %} -->
 
+##### Table of Contents  
+[Headers](#headers)  
+[Emphasis](#emphasis)  
+...snip...    
+<a name="headers"/>
+## Headers
+
 #### Summary of tech stack and skills
 * Neural networks
   * Tensorflow
@@ -73,14 +80,14 @@ First, I examine the rainfall and lake level against time and their correlation 
 
 | ![ Rainfall against gate level](/assets/images/kaituna-project/rainfall-x-gate-level.jpg "Rainfall against gate level") | ![ Lake level against gate level](/assets/images/kaituna-project/lake-level-x-gate-level.jpg "Lake level against gate level") |
 
-Interestingly, neither rainfall nor lake level seem to exhibit the seasonality trends as strongly and neither seems to correlate too strongly with the average gate level. Lake level looks the most correlated but it is by no means a strong correlation. This could suggest that the dam operators have a seasonal model of operation that is independent of rainfall, or that there are some nonlinear or interaction effects between rainfall and lake level that are significant. The correlation for each is quantified in the next section.
+Interestingly, neither rainfall nor lake level seem to exhibit the seasonality trends as strongly and neither seems to correlate too strongly with the average gate level. This is likely to be due to the fact that lake level is regulated. Lake level looks the most correlated but it is by no means a strong correlation. This could suggest that the dam operators have a seasonal model of operation that is independent of rainfall, or that there are some nonlinear or interaction effects between rainfall and lake level that are significant. The correlation for each is quantified in the next section.
 
 #### Delayed effect of rainfall/lake level on gate levels
 It is important to consider that there may be a delayed effect of rainfall or lake level on the gate levels. That is, that rainfall on a given day may result in the lake rising one or two days later. To this end, I can plot the rainfall and lake levels against a lagged gate level to investigate this effect. This is shown below for 0,1,2 and 3 days, with corresponding Pearson correlation coefficients. 
 
 |![ Lagged rainfall against gate level](/assets/images/kaituna-project/lagged-rainfall-against-gate.jpg "Lagged rainfall against gate level")|![ Lagged lake against gate levels](/assets/images/kaituna-project/lagged-lake-against-gate.jpg "Lagged lake against gate levels")|
 
-###### Pearson correlation coefficients for rainfall/lake level against gate level
+* Pearson correlation coefficients for rainfall/lake level against gate level
 
 ||0 days' lag|1 day's lag|2 days' lag| 3 days' lag|
 |:-----------:|:----------:|:-----------:|:-----------:|:-----------:|
@@ -98,7 +105,7 @@ It is also interesting to examine the correlation of lake levels and rainfall, a
 
 ![ Lake level against past rainfall](/assets/images/kaituna-project/lagged-rainfall-x-lake-level.jpg "Lake level against past rainfall")
 
-###### Pearson correlation coefficients for rainfall and lake level
+* Pearson correlation coefficients for rainfall and lake level
 
 |Days of lag|0 days' lag|1 day's lag|2 days' lag| 3 days' lag|
 |:-----------:|:----------:|:-----------:|:-----------:|:-----------:|
@@ -108,7 +115,7 @@ It is also interesting to examine the correlation of lake levels and rainfall, a
 
 Of course, this only tests for a linear relationship. Nonetheless, given there is some correlation, it is interesting to consider PCA as it may reveal new underlying relationships that are useful.
 
-###### PCA loadings
+* PCA loadings
 
 |           |      PC1 |       PC2 |
 |:-----------:|:----------:|:-----------:|
@@ -122,7 +129,7 @@ The mutual information of these components was 0.47 and 0.41 respectively. The l
 ## Mutual information
 I used mutual information to get an idea of how much variance in gate level each variable explained. I did this for rainfall, lake level and the two PCA components. For each, I also investigated how much variance was explained by lagging the features by 1,2, and 3 days.
 
-###### Mutual information between features and gate level for varying lags
+* Mutual information between features and gate level for varying lags
 
 ||0 days' lag|1 day's lag|2 days' lag|3 days' lag|
 |:-----------:|:----------:|:----------:|:----------:|:----------:|
