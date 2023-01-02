@@ -82,10 +82,10 @@ Pearson correlation for lagged rainfall against gate level
 
 |Days lagged|Pearson Coefficient|p value|
 |:-----------:|:----------:|:-----------:|
-|0|0.15|4.60e-10|
-|1|0.26|2.30e-29|
-|2|0.28|1.06e-32|
-|3|0.24|6.31e-24|
+|0|0.15|4.60e<sup>-10</sup>|
+|1|0.26|2.30e<sup>-29</sup>|
+|2|0.28|1.06e<sup>-32</sup>|
+|3|0.24|6.31e<sup>-24</sup>|
 
 ![ Lagged lake against gate levels](/assets/images/kaituna-project/lagged-lake-against-gate.jpg "Lagged lake against gate levels")
 
@@ -109,10 +109,10 @@ It is also interesting to examine the correlation of lake levels and rainfall, a
 
 |Days lagged|Pearson Coefficient|p value|
 |:-----------:|:----------:|:-----------:|
-|0|0.19|pvalue=3.78e-16|
-|1|0.29|, pvalue=3.42e-36|
-|2|0.27|, pvalue=3.21e-32|
-|3|0.24|, pvalue=2.46e-25|
+|0|0.19|3.78e<sup>-16</sup>|
+|1|0.29|3.42<sup>e-36</sup>|
+|2|0.27|3.21<sup>e-32</sup>|
+|3|0.24|2.46<sup>e-25</sup>|
 
 Of course, this only tests for a linear relationship. Nonetheless, given there is some correlation, it is interesting to consider PCA as it may reveal new underlying relationships that are useful.
 
