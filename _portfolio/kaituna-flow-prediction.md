@@ -45,13 +45,13 @@ The gate levels, and several other data points, are all recorded and can be foun
 Most of the data is collected at 5 minute intervals, while rainfall is measured on an hourly basis. I decided that hourly resolution was too granular. Typically, the gate levels are set in the morning or late at night which results in long periods of the day where the gate level does not change. Therefore, I decided that it was most useful to try and predict the flow on a daily basis.
 
 #### Target variable
-I averaged all three gate levels to produce one value for each hour of the day, then took the median of all values to represent the day's gate level. By using the median rather than mean, my average value is not unfairly biased by short amounts of data in the early morning or late evening where the gate level changes. 
+I averaged all three gate levels to produce one value for each hour of the day, then took the median of all values to represent the day's gate level. By using the median rather than mean, my average value is not unfairly biased by short amounts of data in the early morning or late evening where the gate level changes. I also decided to make a forecast of 3 days' worth of predictions.
 
 ## Feature selection
 I decided to use previous gate levels, lake level and rainfall as the 'base' features. I know that lake level and rainfall are the most significant drivers of gate level, as the river is used to maintain lake level. Additionally, there may be utility in including previous gate levels as predictors of the next days' levels.
 
 # Data collection
-To gather the data, I built a web-scraper in Python, the source code for which is [here](https://github.com/chrisgjarrett/kaituna-model/blob/development/web_scraper/kaituna_web_scraper.py). The function grabs the level of lake rotoiti, the gate levels, flow rates and rainfall data. The output is a dataframe with hourly resolution data over the specified time range.
+To gather the data, I built a web-scraper in Python, the source code for which is [here](https://github.com/chrisgjarrett/kaituna-model/blob/development/web_scraper/kaituna_web_scraper.py). The function grabs the level of Lake Rotoiti, the gate levels, flow rates and rainfall data. The output is a dataframe with hourly resolution data over the specified time range.
 
 # Data exploration
 After aggregating the data into daily resolution, I began data exploration. Initially, I wanted to get a feel for what the data looked like, before diving into exploring the relationships of different features on the output
@@ -59,9 +59,11 @@ After aggregating the data into daily resolution, I began data exploration. Init
 ## Gate levels
 ![ Average gate levels](/assets/images/kaituna-project/gate-level-against-time.jpg "Average gate levels")
 
-Immediately, it is clear that there is strong seasonality in the daily median gate levels. In addition to annual seasonality, where gate levels rise during winter, there is also a 4-5 year cycle, possibly corresponding to the La Nina/El Nino cycles. This is confirmed by a periodogram:
+Immediately, it is clear that there is strong seasonality in the daily median gate levels. In addition to annual seasonality, where gate levels rise during winter, there appears to be a 4-5 year cycle, possibly corresponding to the La Nina/El Nino cycles. This is confirmed by a periodogram:
 
 ![ Periodogram of average flow](/assets/images/kaituna-project/periodogram.jpg "Rainfall against time")
+
+I modelled the 4-5 yr seasonal component with a pair of sinusoids, who period was set to 365.25 * 4 (365.25 days/yr and a 4 year cycle).
 
 ## Effect of previous gate levels on current
 To evaluate whether there is any use in adding previous gate levels as a feature, I used partial auto-correlation and plotted the gate levels against previous days' levels:
@@ -140,23 +142,39 @@ I used mutual information to get an idea of how much variance in gate level each
 
 The mutual information results confirm the correlation analysis: across all features, the values from previous days have more of an effect on a given day's gate levels than the current day's values.
 
+## Rainfall forecast
+Finally, I also considered what future information was available to help with predictions. Of the variables considered so far, rainfall is the only one for which we have can have prior information, from weather forecasts. To create this feature, I shifted the rainfall data by 1, 2 and 3 days, to match each day of the prediction horizon. In reality, this will be replaced by a rain forecast, rather than the actual rainfall. For the other features, where we cannot have future information, these were filled with 0s for the 3 day forecast horizon.
+
 ## Summary of data exploration
 From data exploration, I observed that there is a strong seasonal component to the gate levels, with a particularly interesting multi-year cycle. Lake level is more strongly correlated with the gate levels than rainfall, and PCA analyses indicated that inclduing PCA components may be useful. For all features, the values on a given day are not as important as what the values were in previous days: i.e. the rainfall and lake level from days prior are more important for explaining the variance in gate level than the same-day values.
 
+The final featues were selected as:
+* Rainfall
+* 3 days' future forecast of rainfall
+* Lake level
+* Rainfall/Lake level PCA component 1
+* Rainfall/Lake level PCA component 2
+* Previous gate level
+
+The feature set was normalised between 0 and 1 before being fed to the model.
+
 # Training a model
-I went through several iterations of model selection, but settled on using a neural network to predict three days' worth of gate levels. I tried several architectures but focused mainly on variations of LSTMs, as they are particularly suited to timeseries data. 
+The fact that this is a timeseries prediction problem lends itself to the use of LSTMs. I initially started out with some non-systematic pilot investigations, then used a more systematic approach to narrow down the final parameters and model structure. To help in this, I used MLFlow, an experiment tracker. It was set up to record the model, the training dataset and several training/model parameters. I split the data into a 60:20:20 split: 60% for training, 20% for validating the parameters discussed below, and 20% for testing.
 
-## MLFlow
-I used MLFlow to set up an experiment tracker. I wasn't very rigorous about using it, but it was good to be introduced to the concept of experiment tracking. I set it up to record the model, the training dataset and several training/model parameters.
+## Experiment setup
+I set up a cross-validation experiment, where the training data was split into 5 folds for a k-fold leave-one-out validation. An early stopping routine was employed when the validation score did not exceed 1 unit for 200 epochs. For a given 5-fold validation, we get 5 result metrics, representing the validation score for the fold that was left out. I took the median of the 5 results to get the overall result for one cross-validation run. However, the runs are stochastic and so the score is not repeatable. To mitigate this, I repeated each cross-validation experiment 5 times, and took the "median of medians", that is, the median score across all 5 cross-validation experiments, to evaluate each type of model. 
 
-## Cross validation
-My main training script had two modes of operation. In one, I performed 5-fold cross validation on my model. This is where I would compare different models. When I was ready for training, I performed a different split (95/5) and trained a final model. The trained model, and a trained preprocessor, were saved to operationalise the system.
+I performed several experiments using the cross-validation routine described above and tuned the following parameters: model structure (i.e. layers and neuron counts), learning rate, different feature combinations and how many days' of data to get from the past (i.e. sample length for the LSTM). 
 
-## Final model architecture
+## Final model architecture and training
+To summarise, the model contained 3 hidden layers, with 20, 10 and 5 LSTM units respectively, a batch size equal to the length of the training data, a learning rate of 0.001 and 1 day of historic data combined with 3 days' rainfall forecast. The output layer had a custom activation layer that limited the output to between 0 and 1500 (minimum and maximum possible gate levels). The final data was trained in the same manner as cross-validation: trained on 60% of the data, validated on 20% and tested on the final 20%.
 
 ## Results/Graphs
+The model trained with an RMS error of 137 units, validated with an RMS error of 63.5 units and predicted the test gate levels with an RMS error of 248.1 units. The plots below illustrate the fit for the training (top), validation (middle) and test (bottom) sets. Each colour on the graph is a new prediction lasting three days. 
 
-# Operationalisation
+![Model fitting results](/assets/images/kaituna-project/train-test-plot.jpg "Model fitting results")
+
+# Operationalising the model
 I wanted to serve the machine learning model up as a website, with a graph illustrating the last 3-4 days' gate levels and the predictions. The final website can be found [here](https://chrisgjarrett.github.io/kaituna-web-app/).
 
 ## Model training/creation
@@ -170,4 +188,13 @@ The next step was to deploy this script as a Lambda function. AWS places an uppe
 Additionally, I wrote a .yml pipeline that is triggered whenever I push to the 'release-predictions' branch of the repo. The yml file compiles the Docker image, uploads it to my Elastic Container Registry on AWS, and then re-deploys the image to a Lambda function. The Lambda function is configured to run every 6 hours, meaning it runs at 9am, 3pm, 9pm and 3am NZ time. These times were chosen intentionally so as to be useful - i.e. you could check the predicted flows in the morning, afternoon and evening.
 
 ## Website
-As mentioned, the model predictions are served to users through a [website](https://chrisgjarrett.github.io/kaituna-web-app/). The website pulls the JSON file containing the predictions from my AWS S3 bucket to populate its graph. In this way, client behaviour does not trigger a new prediction, which is beneficial from a resource use standpoint.
+As mentioned, the model predictions are served to users through a [website](https://chrisgjarrett.github.io/kaituna-web-app/). The website pulls the JSON file containing the predictions from my AWS S3 bucket to populate its graph. In this way, client behaviour does not trigger a new prediction, which is beneficial from a resource use standpoint. 
+
+# Future work
+No project is ever complete, but I eventually reached a point where I wanted to develop other aspects of my portfolio. I have documented the areas to explore for future work here:
+
+* Use a cloud-based ML service to host/deploy the model. I initially avoided this because it's expensive and probably won't implement it because of cost, however, it would be better practice and more maintainable.
+* Schedule retraining for the model. This would involve periodically scraping new data, checking it for significant changes in its properties and retraining a new model for deployment.
+* Make website ui smarter. Currently some UI decisions are made on the Python side and embedded into the JSON document. This is expedient, since dates are easier in Python than Javascript, but not best-practice. 
+* The current solution architecture requires that a new image be deployed every time a new model is developed. However, it may be easier to deploy the model and preprocessor to an S3 bucket, which the lambda function references. This would mean that new models could be trained on new data without needing to redeploy an image.
+* The model is good at predicting the gate levels when there are no changes, but poor at predicting when the gate levels will change, which is really when it is useful. An improvement to this could involve penalising the model more harshly if it mis-predicts changes in flow.
