@@ -12,7 +12,7 @@ gallery:
 
 <!--{% include gallery caption="This is a sample gallery to go along with this case study." %} -->
 # Table of contents
-- [Summary of tech stack and skills](#summary-of-tech-stack-and-skills)
+- [Tech stack and skills used](#summary-of-tech-stack-and-skills)
 - [Background](#background)
 - [Data collection](#data-collection)
 - [Data exploration](#data-exploration)
