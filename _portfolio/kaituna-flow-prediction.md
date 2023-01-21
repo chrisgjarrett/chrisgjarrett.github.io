@@ -27,6 +27,7 @@ gallery:
   * Keras
   * Timeseries predictions
   * LSTMs
+* Web-scraping
 * Docker
 * Amazon Web Services
   * S3 
@@ -46,7 +47,7 @@ The gate levels, and several other data points, are all recorded and can be foun
 #### Target variable
 Most of the data is collected at 5 minute intervals, while rainfall is measured on an hourly basis. Typically, however, the gate levels are set in the morning or late at night and do not change for long periods of the day. Therefore, I decided that it was most useful to try and predict the flow on a daily basis.
 
-I averaged all three gate levels to produce one value for each hour of the day, then took the median of all values to represent the day's gate level. By using the median rather than mean, my average value is not unfairly biased by short amounts of data in the early morning or late evening where the gate level changes. I also decided to make a forecast of 3 days' worth of predictions.
+I averaged all three gate levels to produce one value for each hour of the day, then took the median of all values to represent the day's gate level. By using the median rather than mean, my average value is not unfairly biased by short amounts of data in the early morning or late evening when the gate level changes. I also decided to make a forecast of 3 days' worth of predictions.
 
 ## Base features
 I decided to use previous gate levels, lake level and rainfall as the 'base' features. I know that lake level and rainfall are the most significant drivers of gate level, as the river is used to maintain the lake level. Additionally, there may be utility in including previous gate levels as predictors of the next days' levels.
@@ -55,7 +56,7 @@ I decided to use previous gate levels, lake level and rainfall as the 'base' fea
 To gather the data, I built a web-scraper in Python, the source code for which is [here](https://github.com/chrisgjarrett/kaituna-model/blob/development/web_scraper/kaituna_web_scraper.py). The function grabs the level of Lake Rotoiti, rainfall data and the gate levels.
 
 # Data exploration
-After aggreagating the data into a daily summary, I began the data exploration phase. Initially, I wanted to get a feel for what the data looked like, before diving into exploring the relationships of different features on the output
+After aggregating the data into a daily summary, I began the data exploration phase. Initially, I wanted to get a feel for what the data looked like, before diving into exploring the relationships of different features on the output
 
 ## Gate levels
 ![ Average gate levels](/assets/images/kaituna-project/gate-level-against-time.jpg "Average gate levels")
@@ -101,8 +102,7 @@ Intuitively, it is important to consider that rainfall is likely to have a delay
 
 *p value for all coefficients was 0
 
-For rainfall, the correlation between a given day's rainfall and a given day's gate levels is not as strong as comparing the given day's gate levels to the rainfall in the preceding days. That is, the rainfall appears to have a delayed effect on the gate levels. 
-For lake level, the correlation with gate level is stronger, but consistent over each lag.
+For rainfall, the correlation between a given day's rainfall and a given day's gate levels is not as strong as comparing the given day's gate levels to the rainfall in the preceding days. That is, the rainfall appears to have a delayed effect on the gate levels. For lake level, the correlation with gate level is stronger, but consistent over each lag.
 
 #### Correlation between rainfall and lake level
 It is also interesting to examine whether lake level and rainfall are correlated, and quantify the delayed effect of rainfall on lake level. Here, I have plotted lake level against the rainfall from 0, 1, 2 and 3 days prior and computed the Pearson correlation coefficient for each. 
@@ -115,7 +115,7 @@ It appears that there is only weak correlation for all cases, but that the lake 
 
 |Days of lag|0 days' lag|1 day's lag|2 days' lag| 3 days' lag|
 |:-----------:|:----------:|:-----------:|:-----------:|:-----------:|
-|Correlation coefficient||0.19|0.29|0.27|0.24|
+|Correlation coefficient|0.19|0.29|0.27|0.24|
 
 *p value for all correlation coefficients was 0
 
@@ -131,7 +131,7 @@ It appears that there is only weak correlation for all cases, but that the lake 
 The PCA loadings are interesting - one indicates a positive correlation and one indicates a negative correlation. It may be that these represent the increase in lake level because of rainfall, and the pre-emptive emptying of the lake in response to high rainfall/high forecasted rainfall.
 
 ## Mutual information
-I used mutual information to get an idea of how much variance in gate level each potential feature explained. I did this for rainfall, lake level and the two PCA components. For each, I also investigated how much variance was explained by lagging the features by 1,2, and 3 days.
+The overall importance of each feature can be summarised with mutual information, which indicates how much variance in gate level each potential feature explains. I did this for rainfall, lake level and the two PCA components. I also investigated the mutual information score for each feature lagged by 1,2 and 3 days.
 
 * Mutual information between features and gate level for varying lags
 
