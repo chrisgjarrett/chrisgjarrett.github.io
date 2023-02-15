@@ -6,7 +6,7 @@ header:
   teaser: /assets/images/remote-work-analytics/remote-work-analytics-icon.jpg
 gallery:
   - url: /assets/images/remote-work-analytics/remote-work-analytics-icon.jpg
-    image_path: /assets/images/remote-work-analytics/remote-work-analytics-icon.jpg
+    image_path: assets/images/remote-work-analytics/remote-work-analytics-icon.jpg
     alt: "Remote work icon"
 ---
 
