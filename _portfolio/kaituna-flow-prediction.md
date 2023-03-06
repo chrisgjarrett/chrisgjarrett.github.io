@@ -20,13 +20,6 @@ gallery:
 - [Operationalising the model](#operationalising-the-model)
 - [Future work](#future-work)
 
-# Background
-The Kaituna river, located at Okere Falls, Rotorua, is one of the premier whitewater kayaking spots in New Zealand. The river is the main outlet for Lake Rotoiti and the flow is controlled by dam gates in order to maintain a consistent lake level.
-
-The river level is typically described of the average gate level, which can be read at the gates themselves. '100s' refers to all three gates being at the 100 mark, 200s at the 200 mark, and so on. Each level of flow presents a distinctive kayaking run with various river features.
-
-The gate levels, and several other data points, are all recorded and can be found at [the BOP regional council website](https://www.boprc.govt.nz). This inspired me to see if I could create a machine learning tool that predicts the gate levels over time and operationalise it as a webpage for paddlers to use.
-
 #### Summary of tech stack and skills
 * Neural networks
   * Tensorflow
@@ -40,6 +33,16 @@ The gate levels, and several other data points, are all recorded and can be foun
   * Lambda functions
   * Scheduling
 * HTML/Javascript
+
+# Background
+The Kaituna river, located at Okere Falls, Rotorua, is one of the premier whitewater kayaking spots in New Zealand. The river is the main outlet for Lake Rotoiti and the flow is controlled by dam gates in order to maintain a consistent lake level.
+
+The river level is typically described of the average gate level, which can be read at the gates themselves. '100s' refers to all three gates being at the 100 mark, 200s at the 200 mark, and so on. Each level of flow presents a distinctive kayaking run with various river features.
+
+The gate levels, and several other data points, are all recorded and can be found at [the BOP regional council website](https://www.boprc.govt.nz). This inspired me to see if I could create a machine learning tool that predicts the gate levels over time and operationalise it as a webpage for paddlers to use.
+
+### Code repository
+Two main repositories were used for this project: [one repo](https://github.com/chrisgjarrett/kaituna-model), to hold the model development, training and prediction code and [a second](https://github.com/chrisgjarrett/kaituna-web-app) to hold a website to serve the model up.
 
 ## Problem definition
 
