@@ -1,12 +1,12 @@
 ---
 title: "Remote work output analytics"
-excerpt: "An analysis on clearing doctors' inboxes of results"
+excerpt: "An analysis on processing medical results"
 header:
-  image: /assets/images/remote-work-analytics/remote-work-analytics-icon.jpg
-  teaser: /assets/images/remote-work-analytics/remote-work-analytics-icon.jpg
+  image: /assets/images/remote-work-analytics/remote-work-icon.png
+  teaser: /assets/images/remote-work-analytics/remote-work-icon.png
 gallery:
-  - url: /assets/images/remote-work-analytics/remote-work-analytics-icon.jpg
-    image_path: /assets/images/remote-work-analytics/remote-work-analytics-icon.jpg
+  - url: /assets/images/remote-work-analytics/remote-work-icon.png
+    image_path: /assets/images/remote-work-analytics/remote-work-icon.png
     alt: "Remote work icon"
 ---
 
