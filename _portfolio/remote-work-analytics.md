@@ -36,10 +36,9 @@ gallery:
 This project employed data analytics and statistics to analyse the work done by a general practitioner (GP) responsible for virtual inbox management. Virtual inbox management refers to the processing of medical results that get emailed to doctors. Doctors typically prescribe medical tests and get notified of the results in their inbox. This creates a huge amount of paperwork for them to process and they often struggle to fit it into a standard workday. I was approached by a GP who was managing several inboxes for clinics across to New Zealand, to analyse their output and help to indicate the value of their service to future clinics.
 
 ## Code repository
-Most work was done in Excel, with a small amount in R. This can be viewed [here.](https://github.com/chrisgjarrett/remote-gp-inbox)
+Most work was done in Excel, with a small amount in R. The R code can be viewed [here.](https://github.com/chrisgjarrett/remote-gp-inbox).
 
-## Data accessibility
-Since the data pertains to clinicians, raw data has not been made publicly available, nor have the spreadsheets used for further analysis. Please contact me if you wish to view this and we can discuss access.
+Since the data pertains to clinicians, the Excel sheets used for analysis, as well as raw data, has not been made publicly available. Please contact me if you wish to view this and we can discuss access.
 
 ## Process
 The GP kept a spreadsheet of data, with each row corresponding to the results cleared from one doctor's inbox on a given day, and each column representing the total number of each result type cleared from the inbox. Briefly, the categories of result are:
