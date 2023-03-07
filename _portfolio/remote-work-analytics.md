@@ -38,6 +38,9 @@ This project employed data analytics and statistics to analyse the work done by 
 ## Code repository
 Most work was done in Excel, with a small amount in R. This can be viewed [here.](https://github.com/chrisgjarrett/remote-gp-inbox)
 
+## Data accessibility
+Since the data pertains to clinicians, raw data has not been made publicly available, nor have the spreadsheets used for further analysis. Please contact me if you wish to view this and we can discuss access.
+
 ## Process
 The GP kept a spreadsheet of data, with each row corresponding to the results cleared from one doctor's inbox on a given day, and each column representing the total number of each result type cleared from the inbox. Briefly, the categories of result are:
   - Laboratory
