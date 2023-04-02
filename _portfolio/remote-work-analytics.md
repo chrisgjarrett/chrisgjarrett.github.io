@@ -1,6 +1,8 @@
 ---
 title: "Remote work output analytics"
 excerpt: "An analysis on processing medical results."
+header:
+  teaser: /assets/images/remote-work-analytics/remote-work-icon.png
 gallery:
   - url: /assets/images/remote-work-analytics/remote-work-icon.png
     image_path: /assets/images/remote-work-analytics/remote-work-icon.png
