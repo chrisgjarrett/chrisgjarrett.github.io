@@ -4,9 +4,9 @@ excerpt: "Exploring and visualising airline rating data."
 header:
   teaser: /assets/images/airline-analytics/portfolio-logo.png
 gallery:
-  - url: /assets/images/kaituna-project/images/kaituna-project.jpg
-    image_path: /assets/images/kaituna-project/kaituna-project-th.jpg
-    alt: "Ferrying the chute at kaituna"
+  - url: /assets/images/airline-analytics/portfolio-logo.png
+    image_path: /assets/images/airline-analytics/portfolio-logo.png
+    alt: "Airline analytics stock image"
 ---
 
 <!--{% include gallery caption="This is a sample gallery to go along with this case study." %} -->
