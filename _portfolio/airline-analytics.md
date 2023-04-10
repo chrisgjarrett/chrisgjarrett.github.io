@@ -10,7 +10,7 @@ gallery:
 ---
 
 <!--{% include gallery caption="This is a sample gallery to go along with this case study." %} -->
-# Table of contents
+<!-- # Table of contents -->
 
 
 #### Summary of tech stack and skills
