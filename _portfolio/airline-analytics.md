@@ -24,7 +24,7 @@ For this project, I wanted to start to learn how to use Tableau and gain further
 
 I also looked at the profile of a returning customer, however, this analysis consisted largely of one dashboard and is best explained visually, so please view the dashboard if this is of interest.
 
-A tableau story detailing the satisfaction analysis can be found [here](https://public.tableau.com/shared/JKPWBPMMC?:display_count=n&:origin=viz_share_link) and a dashboard profiling returning customers can be found [here](https://public.tableau.com/views/Returningcustomerprofile/Returningcustomerprofile?:language=en-GB&publish=yes&:display_count=n&:origin=viz_share_link). It's difficult to export plots from Tableau Public so I've attempted to summarise the key findings here, along with 'business recommendations'.
+A tableau story detailing the satisfaction analysis can be found [here](https://public.tableau.com/shared/JKPWBPMMC?:display_count=n&:origin=viz_share_link) and a dashboard profiling returning customers can be found [here](https://public.tableau.com/app/profile/chris7651/viz/AirlineSatisfactionAnalysis/AirlineRatingsAnalysis). It's difficult to export plots from Tableau Public so I've attempted to summarise the key findings here, along with 'business recommendations'.
 
 # Key takeaways
 ## Overview
